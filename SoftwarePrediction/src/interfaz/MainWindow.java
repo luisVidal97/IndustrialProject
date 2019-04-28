@@ -1,6 +1,8 @@
 package interfaz;
 
+import java.awt.BasicStroke;
 import java.awt.BorderLayout;
+import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.Toolkit;
 import java.awt.event.ActionEvent;
@@ -8,6 +10,9 @@ import java.awt.event.ActionListener;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.IOException;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
 
 import javax.swing.JButton;
 import javax.swing.JFileChooser;
@@ -16,6 +21,13 @@ import javax.swing.JPanel;
 import javax.swing.UIManager;
 import javax.swing.filechooser.FileNameExtensionFilter;
 
+import org.jfree.chart.ChartFactory;
+import org.jfree.chart.ChartPanel;
+import org.jfree.chart.JFreeChart;
+import org.jfree.chart.renderer.xy.XYLineAndShapeRenderer;
+import org.jfree.data.xy.DefaultXYDataset;
+
+import modelo.Articulo;
 import modelo.Controlador;
 
 public class MainWindow extends JFrame implements ActionListener{
@@ -104,6 +116,7 @@ public class MainWindow extends JFrame implements ActionListener{
 			    File fichero=fc.getSelectedFile();
 			    try {
 					controlador.cargarArchivo(fichero);
+					crearGraficaDemanda(controlador.getArticulos());
 				} catch (FileNotFoundException e1) {
 					// TODO Auto-generated catch block
 					e1.printStackTrace();
@@ -118,6 +131,52 @@ public class MainWindow extends JFrame implements ActionListener{
 	}
 	
 	
+	private void crearGraficaDemanda(HashMap<String, Articulo> articulos) 
+	{
+		List<Articulo> valueList = new ArrayList<Articulo>(articulos.values());
+		double[] periodos = new double[valueList.get(0).getDemandaArticulo().size()];
+		
+		for(int i = 0; i < periodos.length; i++)
+		{
+			periodos[i] = i + 1;
+		}
+		
+		DefaultXYDataset dataset = new DefaultXYDataset();
+		
+		for(int i = 0; i < valueList.size(); i++)
+		{
+			String nombreArticulo = valueList.get(i).getNombreArticulo();
+			ArrayList<Double> demanda = valueList.get(i).getDemandaArticulo();
+			double[] valoresDemanda = new double[demanda.size()];
+			
+			for(int j = 0; j < demanda.size(); j++)
+			{
+				valoresDemanda[i] = demanda.get(i);
+			}
+			
+			dataset.addSeries(nombreArticulo, new double[][] {periodos,valoresDemanda});
+		}
+      
+      
+        XYLineAndShapeRenderer renderer = new XYLineAndShapeRenderer();
+        renderer.setSeriesPaint(0, Color.ORANGE);
+        renderer.setSeriesStroke(0, new BasicStroke(2));
+
+        JFreeChart chart = ChartFactory.createXYLineChart("Comportamiento de la demanda", "Periodo", "Demanda", dataset);
+        chart.getXYPlot().setRenderer(renderer);
+
+        ChartPanel panel = new ChartPanel(chart);   
+        
+        add(panel, BorderLayout.CENTER);
+        
+        
+        btnLoadPrediction.setEnabled(false);
+        this.repaint();
+	}
+
+
+
+
 	/**
 	 * Main method
 	 * @param args
