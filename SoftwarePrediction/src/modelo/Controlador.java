@@ -12,12 +12,24 @@ import org.apache.poi.ss.usermodel.Row;
 import org.apache.poi.xssf.usermodel.XSSFSheet;
 import org.apache.poi.xssf.usermodel.XSSFWorkbook;
 
+import Servicios.Erratico;
+import Servicios.HorizontalProMovilPonderado;
+import Servicios.HorizontalProMovilSimple;
+import Servicios.HorizontalSuavizadoSimple;
+import Servicios.TendenciaPoryeccion;
+
 public class Controlador
 {
 	/**
 	 * Atributo que contiene todos los articulos, cuya clave es su nombre
 	 */
 	HashMap<String, Articulo> articulos = new HashMap<String, Articulo>();
+	
+	private Erratico erratico;
+	private TendenciaPoryeccion tendenciaProye;
+	private HorizontalProMovilSimple horiProMedioSimple;
+	private HorizontalProMovilPonderado horiProMedioPonderado;
+	private HorizontalSuavizadoSimple horiProMedioSuvizado;
 
 	/**
 	 * Este metodo se encarga de leer los datos que vienen de un archivo de excel y se encarga de guardar la informacion en el hash de articulos
@@ -83,6 +95,54 @@ public class Controlador
 //			String nombre =valueList.get(i).getNombreArticulo();
 //			ArrayList sfas = valueList.get(i).getDemandaArticulo();
 //		}		
+	}
+
+	public HashMap<String, Articulo> getArticulos() {
+		return articulos;
+	}
+
+	public void setArticulos(HashMap<String, Articulo> articulos) {
+		this.articulos = articulos;
+	}
+
+	public Erratico getErratico() {
+		return erratico;
+	}
+
+	public void setErratico(Erratico erratico) {
+		this.erratico = erratico;
+	}
+
+	public TendenciaPoryeccion getTendenciaProye() {
+		return tendenciaProye;
+	}
+
+	public void setTendenciaProye(TendenciaPoryeccion tendenciaProye) {
+		this.tendenciaProye = tendenciaProye;
+	}
+
+	public HorizontalProMovilSimple getHoriProMedioSimple() {
+		return horiProMedioSimple;
+	}
+
+	public void setHoriProMedioSimple(HorizontalProMovilSimple horiProMedioSimple) {
+		this.horiProMedioSimple = horiProMedioSimple;
+	}
+
+	public HorizontalProMovilPonderado getHoriProMedioPonderado() {
+		return horiProMedioPonderado;
+	}
+
+	public void setHoriProMedioPonderado(HorizontalProMovilPonderado horiProMedioPonderado) {
+		this.horiProMedioPonderado = horiProMedioPonderado;
+	}
+
+	public HorizontalSuavizadoSimple getHoriProMedioSuvizado() {
+		return horiProMedioSuvizado;
+	}
+
+	public void setHoriProMedioSuvizado(HorizontalSuavizadoSimple horiProMedioSuvizado) {
+		this.horiProMedioSuvizado = horiProMedioSuvizado;
 	}
 	
 }
