@@ -5,7 +5,6 @@ public class HorizontalProMovilPonderado implements IPronostico{
 	private double[] periodos;
 	private int numeroPeriodo;
 	private double[] porcentajes;
-	
 	private static double[] pronosticoParcial;
 	private static double[] errorAbsoluto;
 	private static double[] errorAbsolutoCuadrado;
