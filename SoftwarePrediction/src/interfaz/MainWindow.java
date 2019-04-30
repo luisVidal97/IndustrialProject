@@ -17,7 +17,11 @@ import java.util.List;
 import javax.swing.JButton;
 import javax.swing.JFileChooser;
 import javax.swing.JFrame;
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
+import javax.swing.JScrollPane;
+import javax.swing.JTable;
+import javax.swing.SwingUtilities;
 import javax.swing.UIManager;
 import javax.swing.filechooser.FileNameExtensionFilter;
 
@@ -39,11 +43,18 @@ public class MainWindow extends JFrame implements ActionListener{
 	 */
 	public static String BTN_LOAD= "CargarArchivos";
 	
+	public static String BTN_GENERATE_PREDICTION="Generar Pronostico";
 	
 	/**
 	 * Button for load the file with prediction
 	 */
 	private JButton btnLoadPrediction;
+	
+	
+	private JButton btnGeneratePrediction;
+	
+	
+	private JTable tbTableData;
 	
 	
 	/**
@@ -77,9 +88,16 @@ public class MainWindow extends JFrame implements ActionListener{
 		btnLoadPrediction.addActionListener(this);
 		btnLoadPrediction.setActionCommand(BTN_LOAD);
 		
+		btnGeneratePrediction = new JButton(BTN_GENERATE_PREDICTION);
+		btnGeneratePrediction.addActionListener(this);
+		btnGeneratePrediction.setActionCommand(BTN_GENERATE_PREDICTION);
 		
 		add(btnLoadPrediction, BorderLayout.SOUTH);
 	
+		
+		add(btnGeneratePrediction,BorderLayout.NORTH);
+		
+		setDefaultCloseOperation(EXIT_ON_CLOSE);
 	}
 	
 
@@ -116,13 +134,17 @@ public class MainWindow extends JFrame implements ActionListener{
 			    File fichero=fc.getSelectedFile();
 			    try {
 					controlador.cargarArchivo(fichero);
-					crearGraficaDemanda(controlador.getArticulos());
+					JOptionPane.showMessageDialog(null, "¡El archivo se ha cargado correctamente!",
+							"Archivo cargado", JOptionPane.INFORMATION_MESSAGE);
+					fillTable(controlador.getArticulos());
 				} catch (FileNotFoundException e1) {
-					// TODO Auto-generated catch block
+					JOptionPane.showMessageDialog(null, "Archivo no encontrado",
+							"Error", JOptionPane.ERROR_MESSAGE);
 					e1.printStackTrace();
 				} catch (IOException e1) {
 					// TODO Auto-generated catch block
-					e1.printStackTrace();
+					JOptionPane.showMessageDialog(null, "No se pudo cargar el archivo correactamente",
+							"Error", JOptionPane.ERROR_MESSAGE);
 				}
 			    
 			}
@@ -131,47 +153,51 @@ public class MainWindow extends JFrame implements ActionListener{
 	}
 	
 	
-	private void crearGraficaDemanda(HashMap<String, Articulo> articulos) 
-	{
-		List<Articulo> valueList = new ArrayList<Articulo>(articulos.values());
-		double[] periodos = new double[valueList.get(0).getDemandaArticulo().size()];
+	
+	/**
+	 * Method server to show the table in the main window
+	 * @param articulos
+	 */
+	private void fillTable(HashMap<String, Articulo> articulos) {
 		
-		for(int i = 0; i < periodos.length; i++)
-		{
-			periodos[i] = i + 1;
-		}
+		String[] dataColumns =  new String[articulos.size()+1];
 		
-		DefaultXYDataset dataset = new DefaultXYDataset();
 		
-		for(int i = 0; i < valueList.size(); i++)
-		{
-			String nombreArticulo = valueList.get(i).getNombreArticulo();
-			ArrayList<Double> demanda = valueList.get(i).getDemandaArticulo();
-			double[] valoresDemanda = new double[demanda.size()];
-			
-			for(int j = 0; j < demanda.size(); j++)
-			{
-				valoresDemanda[i] = demanda.get(i);
-			}
-			
-			dataset.addSeries(nombreArticulo, new double[][] {periodos,valoresDemanda});
-		}
-      
-      
-        XYLineAndShapeRenderer renderer = new XYLineAndShapeRenderer();
-        renderer.setSeriesPaint(0, Color.ORANGE);
-        renderer.setSeriesStroke(0, new BasicStroke(2));
+		dataColumns[0]="Periodos/Referencias";
+		int i =1;
+		Articulo a = null;
+		 for (String key : articulos.keySet()) {
+			 dataColumns[i]=key;
+			 i++;
+			 a=articulos.get(key);
+		 }
+		 
+		 i=0;
 
-        JFreeChart chart = ChartFactory.createXYLineChart("Comportamiento de la demanda", "Periodo", "Demanda", dataset);
-        chart.getXYPlot().setRenderer(renderer);
+		 String[][] dataRows = new String[a.getDemandaArticulo().size()][articulos.size()+1];
+		 
+		 for (int j = 0; j < dataRows.length; j++) {
+			 dataRows[j][0]= "Per " + (j+1);
+		}
+		 
+		 for (Articulo value : articulos.values()) {
+			 for (int j = 0; j < value.getDemandaArticulo().size(); j++) {
+				 
+				 dataRows[j][i+1]= value.getDemandaArticulo().get(j)+"";
+			 }
+			 i++;
+		 }
 
-        ChartPanel panel = new ChartPanel(chart);   
-        
-        add(panel, BorderLayout.CENTER);
-        
-        
-        btnLoadPrediction.setEnabled(false);
-        this.repaint();
+		 i=0;
+
+
+		tbTableData = new JTable(dataRows, dataColumns);
+		tbTableData.setEnabled(false);
+		add(new JScrollPane(tbTableData,JScrollPane.VERTICAL_SCROLLBAR_AS_NEEDED,JScrollPane.HORIZONTAL_SCROLLBAR_AS_NEEDED),BorderLayout.CENTER);
+		//Refresh JFrame
+		SwingUtilities.updateComponentTreeUI(this);
+		tbTableData.updateUI();		
+		
 	}
 
 
