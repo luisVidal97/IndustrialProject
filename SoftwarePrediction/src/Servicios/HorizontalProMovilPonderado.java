@@ -61,8 +61,6 @@ public class HorizontalProMovilPonderado implements IPronostico{
 		return valorMAD/(periodos.length-numeroPeriodo);
 	}
 
-	
-
 	@Override
 	public double calcularMSE() 
 	{
