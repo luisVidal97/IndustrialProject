@@ -25,11 +25,6 @@ import javax.swing.SwingUtilities;
 import javax.swing.UIManager;
 import javax.swing.filechooser.FileNameExtensionFilter;
 
-import org.jfree.chart.ChartFactory;
-import org.jfree.chart.ChartPanel;
-import org.jfree.chart.JFreeChart;
-import org.jfree.chart.renderer.xy.XYLineAndShapeRenderer;
-import org.jfree.data.xy.DefaultXYDataset;
 
 import modelo.Articulo;
 import modelo.Controlador;
@@ -149,10 +144,12 @@ public class MainWindow extends JFrame implements ActionListener{
 				}
 			    
 			}
-		}else if(e.getActionCommand().equals(BTN_GENERATE_PREDICTION)) {
-			
-			wdAskData  = new AskForDataWindow();
+		}else if(e.getActionCommand().equals(BTN_GENERATE_PREDICTION))
+		{
+			List<Articulo> ada = new ArrayList<Articulo>(controlador.getArticulos().values());
+			wdAskData  = new AskForDataWindow(ada, this);
 			wdAskData.setVisible(true);
+			
 			
 		}
 		
@@ -219,6 +216,15 @@ public class MainWindow extends JFrame implements ActionListener{
 
 		MainWindow i = new MainWindow();
 		i.setVisible(true);
+	}
+
+
+
+
+	public Articulo buscarArticulo(String nombre)
+	{
+		HashMap<String, Articulo> art = controlador.getArticulos();
+		return art.get(nombre);
 	}
 
 }

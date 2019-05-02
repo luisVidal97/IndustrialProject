@@ -6,8 +6,12 @@ import java.awt.GridLayout;
 import java.awt.Toolkit;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.util.Collection;
+import java.util.List;
 
 import javax.swing.*;
+
+import modelo.Articulo;
 
 public class AskForDataWindow extends JFrame implements ActionListener{
 
@@ -24,8 +28,16 @@ public class AskForDataWindow extends JFrame implements ActionListener{
 	
 	private JButton btnAccept;
 	
-	public AskForDataWindow() {
+	private PanelProductos panelProductos;
+	
+	private List<Articulo> listaArticulos;
+	
+	private MainWindow principal;
+	
+	public AskForDataWindow(List<Articulo> collection, MainWindow paginaPrincipal) {
 		
+		principal = paginaPrincipal;
+		listaArticulos = collection;
 		setTitle("Datos requeridos para los prónosticos");
 		try{
 			UIManager.setLookAndFeel("com.sun.java.swing.plaf.windows.WindowsLookAndFeel");
@@ -80,6 +92,7 @@ public class AskForDataWindow extends JFrame implements ActionListener{
 					porcent[i]=d;
 				}
 				
+				panelProductos = new PanelProductos(listaArticulos, principal);
 				
 				
 			}catch(NumberFormatException ex) {
