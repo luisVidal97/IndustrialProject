@@ -56,6 +56,7 @@ public class MainWindow extends JFrame implements ActionListener{
 	
 	private JTable tbTableData;
 	
+	private AskForDataWindow wdAskData;
 	
 	/**
 	 * Conexion con el controlador principal de la aplicacion
@@ -148,7 +149,13 @@ public class MainWindow extends JFrame implements ActionListener{
 				}
 			    
 			}
+		}else if(e.getActionCommand().equals(BTN_GENERATE_PREDICTION)) {
+			
+			wdAskData  = new AskForDataWindow();
+			wdAskData.setVisible(true);
+			
 		}
+		
 		
 	}
 	
