@@ -10,16 +10,29 @@ public class HorizontalProMovilPonderado implements IPronostico{
 	private static double[] errorAbsolutoCuadrado;
 	private static double[] errorRelativo;
 	
+	private double pronostico;
+	private double mad;
+	private double mse;
+	private double mape;
+	
+	
 	public HorizontalProMovilPonderado(double[] values, int numero, double[] porcent) 
 	{
 		periodos=values;
 		numeroPeriodo = numero;
 		porcentajes= porcent;
 		
+		
+		
 		pronosticoParcial = new double[periodos.length];
 		errorAbsoluto = new double[periodos.length];
 		errorAbsolutoCuadrado = new double[periodos.length];
 		errorRelativo = new double[periodos.length];
+		
+		pronostico = calcularPronostico();
+		mad = calcularMAD();
+		mse = calcularMSE();
+		mape = calcularMAPE();
 	}
 	
 	@Override
@@ -109,5 +122,39 @@ public class HorizontalProMovilPonderado implements IPronostico{
 		}
 		return parcial;
 	}
+
+	public double getPronostico() {
+		return pronostico;
+	}
+
+	public void setPronostico(double pronostico) {
+		this.pronostico = pronostico;
+	}
+
+	public double getMad() {
+		return mad;
+	}
+
+	public void setMad(double mad) {
+		this.mad = mad;
+	}
+
+	public double getMse() {
+		return mse;
+	}
+
+	public void setMse(double mse) {
+		this.mse = mse;
+	}
+
+	public double getMape() {
+		return mape;
+	}
+
+	public void setMape(double mape) {
+		this.mape = mape;
+	}
+	
+	
 
 }

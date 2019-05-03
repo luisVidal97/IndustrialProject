@@ -2,17 +2,21 @@ package interfaz;
 
 import java.awt.BorderLayout;
 import java.awt.GridLayout;
+import java.awt.Panel;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.ArrayList;
 import java.util.List;
 
+import javax.swing.AbstractButton;
 import javax.swing.JButton;
 import javax.swing.JComboBox;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
+import javax.swing.JScrollPane;
 import javax.swing.JTextArea;
+import javax.swing.JTextField;
 
 import modelo.Articulo;
 
@@ -25,20 +29,9 @@ public class PanelProductos extends JFrame implements ActionListener
 	private JButton botonDerecha;
 	private int posicionActual;
 	
-//	//Erratico
-//	private JLabel valorPronosticoErratico;
-//	private JLabel valorMADErratico;
-//	private JLabel valorMSEErratico;
-//	private JLabel valorMAPEErratico;
-//	
-//	//HorizonalProMovilPonderado
-//	private JLabel valorPronosticohorPromdMovPonde;
-//	private JLabel valorMADhorPromdMovPonde;
-//	private JLabel valorMSEhorPromdMovPonde;
-//	private JLabel valorMAPEhorPromdMovPonde;
 	
 	private JPanel panelDatos;
-	private JLabel nombreArticulo;
+	private JTextField nombreArticulo;
 	private JTextArea erratico;
 	private JTextArea horProMovPonde;
 	private JTextArea horProMovSimple;
@@ -84,9 +77,15 @@ public class PanelProductos extends JFrame implements ActionListener
 		
 		panelSuperior.add(combo,BorderLayout.CENTER);
 		
+		JScrollPane jScrollPane = new JScrollPane();
+		
+		
+		
 		panelDatos = new JPanel();
-		panelDatos.setLayout(new GridLayout(7,1));
-		nombreArticulo = new JLabel("");
+		panelDatos.setLayout(new GridLayout(6,1));
+		
+		nombreArticulo = new JTextField("");
+		 nombreArticulo.setHorizontalAlignment(JTextField.CENTER);
 		 erratico = new JTextArea();
 		 horProMovPonde = new JTextArea();
 		 horProMovSimple = new JTextArea();
@@ -94,6 +93,7 @@ public class PanelProductos extends JFrame implements ActionListener
 		 suaExpSimple = new JTextArea();
 		 proyTende = new JTextArea();
 		
+		 nombreArticulo.setEditable(false);
 		erratico.setEditable(false);
 		horProMovPonde.setEditable(false);
 		horProMovSimple.setEditable(false);
@@ -101,7 +101,6 @@ public class PanelProductos extends JFrame implements ActionListener
 		suaExpSimple.setEditable(false);
 		proyTende.setEditable(false);
 		
-		panelDatos.add(nombreArticulo);
 		panelDatos.add(erratico);
 		panelDatos.add(horProMovPonde);
 		panelDatos.add(horProMovSimple);
@@ -109,14 +108,23 @@ public class PanelProductos extends JFrame implements ActionListener
 		panelDatos.add(suaExpSimple);
 		panelDatos.add(proyTende);
 		
-		add(panelDatos, BorderLayout.CENTER);
+		jScrollPane.setViewportView(panelDatos);
+		
+		JPanel aux = new JPanel();
+		aux.setLayout(new BorderLayout());
+		
+		aux.add(nombreArticulo, BorderLayout.NORTH);
+		aux.add(jScrollPane, BorderLayout.CENTER);
+		aux.add(botonIzquierda,BorderLayout.WEST);
+		aux.add(botonDerecha,BorderLayout.EAST);
+		add(aux, BorderLayout.CENTER);
 		
 		JPanel panelCentro = new JPanel();
 		panelCentro.setLayout(new BorderLayout());
 		
 				
-		add(botonIzquierda,BorderLayout.WEST);
-		add(botonDerecha,BorderLayout.EAST);
+	//	add(botonIzquierda,BorderLayout.WEST);
+	//	add(botonDerecha,BorderLayout.EAST);
 		add(panelSuperior,BorderLayout.NORTH );
 		setVisible(true);
 		mostrarDatosArticulos(listaArticulos.get(0));
@@ -135,7 +143,6 @@ public class PanelProductos extends JFrame implements ActionListener
 			else
 			{
 				posicionActual++;
-				System.out.println(posicionActual);
 				mostrarDatosArticulos(listaArticulos.get(posicionActual));
 			}
 		}
@@ -159,49 +166,47 @@ public class PanelProductos extends JFrame implements ActionListener
 	{
 		
 		nombreArticulo.setText(articulo.getNombreArticulo());
-		
+		nombreArticulo.setFont( nombreArticulo.getFont().deriveFont( 24f )); 
 		
 		
 		erratico.setText("           Metodo Erratico" + "\n" + 
-						"Valor del pronostico: " +  "\n" +
-						"Valor MAD: " + "\n" +
-						"Valor MSE: " + "\n" + 
-						"Valor MAPE: ");
+						"Valor del pronostico: " + articulo.getServicios().getErratico().getPronostico()  +"\n" +
+						"Valor MAD: " + articulo.getServicios().getErratico().getMad()+"\n" +
+						"Valor MSE: " + articulo.getServicios().getErratico().getMse() + "\n" + 
+						"Valor MAPE: " + articulo.getServicios().getErratico().getMape()+ "\n");
 		
 	
 		horProMovPonde.setText("           Metodo Horizontal promedio movil ponderado" + "\n" + 
-						"Valor del pronostico: " +  "\n" +
-						"Valor MAD: " + "\n" +
-						"Valor MSE: " + "\n" + 
-						"Valor MAPE: ");
+						"Valor del pronostico: " +  articulo.getServicios().getHorProMovilPonde().getPronostico() + "\n" +
+						"Valor MAD: " +  articulo.getServicios().getHorProMovilPonde().getMad() + "\n" +
+						"Valor MSE: " + articulo.getServicios().getHorProMovilPonde().getMse() + "\n" + 
+						"Valor MAPE: "+ articulo.getServicios().getHorProMovilPonde().getMape()+ "\n");
 		
 		
 		horProMovSimple.setText("            Metodo Horizontal promedio movil simple" + "\n" + 
-						"Valor del pronostico: " +  "\n" +
-						"Valor MAD: " + "\n" +
-						"Valor MSE: " + "\n" + 
-						"Valor MAPE: ");
+						"Valor del pronostico: " +  articulo.getServicios().getHorProMovilSimple().getPronostico() + "\n" +
+						"Valor MAD: " + articulo.getServicios().getHorProMovilSimple().getMad() +"\n" +
+						"Valor MSE: " + articulo.getServicios().getHorProMovilSimple().getMse() +"\n" + 
+						"Valor MAPE: " + articulo.getServicios().getHorProMovilSimple().getMape() + "\n");
 		
 	
 		horSuaSimple.setText("           Metodo suavizado simple" + "\n" + 
-						"Valor del pronostico: " +  "\n" +
-						"Valor MAD: " + "\n" +
-						"Valor MSE: " + "\n" + 
-						"Valor MAPE: ");
+						"Valor del pronostico: " +  articulo.getServicios().getHorSuaziSimple().getPronostico() + "\n" +
+						"Valor MAD: " + articulo.getServicios().getHorSuaziSimple().getMad() + "\n" );
 		
 	
 		suaExpSimple.setText("           Metodo suavizado exponencial doble" + "\n" + 
-						"Valor del pronostico: " +  "\n" +
-						"Valor MAD: " + "\n" +
-						"Valor MSE: " + "\n" + 
-						"Valor MAPE: ");
+						"Valor del pronostico: " + articulo.getServicios().getSuaviExpoDoble().getPronostico() +  "\n" +
+						"Valor MAD: " + articulo.getServicios().getSuaviExpoDoble().getMad()+ "\n" +
+						"Valor MSE: " + articulo.getServicios().getSuaviExpoDoble().getMse()+ "\n" + 
+						"Valor MAPE: "+ articulo.getServicios().getSuaviExpoDoble().getMape() +  "\n");
 		
 		
 		proyTende.setText("           Metodo proyeccion de tendencia" + "\n" + 
-						"Valor del pronostico: " +  "\n" +
-						"Valor MAD: " + "\n" +
-						"Valor MSE: " + "\n" + 
-						"Valor MAPE: ");
+						"Valor del pronostico: " + articulo.getServicios().getProyeTende().getPronostico() +  "\n" +
+						"Valor MAD: " + articulo.getServicios().getProyeTende().getMad()  +"\n" +
+						"Valor MSE: " + articulo.getServicios().getProyeTende().getMse() + "\n" + 
+						"Valor MAPE: " + articulo.getServicios().getProyeTende().getMape() +  "\n");
 		
 		
 	

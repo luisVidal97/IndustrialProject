@@ -5,6 +5,9 @@ public class HorizontalSuavizadoSimple {
 	private double[] alfa1;
 	private double[] errorAbs1;
 	public double alfa;
+	
+	private double pronostico;
+	private double mad;
 //	private double[] alfa2;
 //	private double[] errorAbs2;
 	
@@ -16,6 +19,9 @@ public class HorizontalSuavizadoSimple {
 		alfa = valorAlfa;
 //		alfa2 = new double[periodos.length+1];
 //		errorAbs2 = new double[periodos.length];
+		
+		pronostico = calcularPronostico();
+		mad = MAD1();
 		
 		
 	}
@@ -87,5 +93,23 @@ public class HorizontalSuavizadoSimple {
 	        resultado=Math.round(resultado);
 	        resultado=(resultado/Math.pow(10, numeroDecimales))+parteEntera;
 	        return resultado;
-	    }
+	 }
+
+	public double getPronostico() {
+		return pronostico;
+	}
+
+	public void setPronostico(double pronostico) {
+		this.pronostico = pronostico;
+	}
+
+	public double getMad() {
+		return mad;
+	}
+
+	public void setMad(double mad) {
+		this.mad = mad;
+	}
+	 
+	 
 }

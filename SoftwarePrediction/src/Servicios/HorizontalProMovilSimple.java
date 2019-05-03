@@ -10,6 +10,11 @@ public class HorizontalProMovilSimple implements IPronostico{
 	private static double[] errorAbsolutoCuadrado;
 	private static double[] errorRelativo;
 	
+	private double pronostico;
+	private double mad;
+	private double mse;
+	private double mape;
+	
 	public HorizontalProMovilSimple(double[] values, int numero) 
 	{
 		periodos=values;
@@ -19,6 +24,11 @@ public class HorizontalProMovilSimple implements IPronostico{
 		errorAbsoluto = new double[periodos.length];
 		errorAbsolutoCuadrado = new double[periodos.length];
 		errorRelativo = new double[periodos.length];
+		
+		pronostico = calcularPronostico();
+		mad = calcularMAD();
+		mse = calcularMSE();
+		mape = calcularMAPE();
 	}
 	
 	@Override
@@ -103,5 +113,39 @@ public class HorizontalProMovilSimple implements IPronostico{
 		}
 		return parcial/numeroPeriodo;
 	}
+
+	public double getPronostico() {
+		return pronostico;
+	}
+
+	public void setPronostico(double pronostico) {
+		this.pronostico = pronostico;
+	}
+
+	public double getMad() {
+		return mad;
+	}
+
+	public void setMad(double mad) {
+		this.mad = mad;
+	}
+
+	public double getMse() {
+		return mse;
+	}
+
+	public void setMse(double mse) {
+		this.mse = mse;
+	}
+
+	public double getMape() {
+		return mape;
+	}
+
+	public void setMape(double mape) {
+		this.mape = mape;
+	}
+	
+	
 
 }

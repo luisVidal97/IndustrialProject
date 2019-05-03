@@ -3,16 +3,25 @@ package Servicios;
 public class Erratico implements IPronostico{
 
 	private double[] periodos;
+	private double pronostico;
+	private double mad;
+	private double mse;
+	private double mape;
 	
-	
-	public Erratico(double[] values) {
+	public Erratico(double[] values) 
+	{
 		periodos=values;
+		pronostico = calcularPronostico();
+		mad = calcularMAD();
+		mse = calcularMSE();
+		mape = calcularMAPE();
 	}
 	
 
 	@Override
-	public double calcularPronostico() {
-		// TODO Auto-generated method stub
+	public double calcularPronostico() 
+	{
+		
 		return periodos[periodos.length-1];
 	}
 
@@ -70,5 +79,47 @@ public class Erratico implements IPronostico{
 
 	    return prom / ( double ) v.length;  
 	  }
+
+
+	public double getPronostico() {
+		return pronostico;
+	}
+
+
+	public void setPronostico(double pronostico) {
+		this.pronostico = pronostico;
+	}
+
+
+	public double getMad() {
+		return mad;
+	}
+
+
+	public void setMad(double mad) {
+		this.mad = mad;
+	}
+
+
+	public double getMse() {
+		return mse;
+	}
+
+
+	public void setMse(double mse) {
+		this.mse = mse;
+	}
+
+
+	public double getMape() {
+		return mape;
+	}
+
+
+	public void setMape(double mape) {
+		this.mape = mape;
+	}
+	
+	
 
 }
