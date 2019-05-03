@@ -133,6 +133,7 @@ public class MainWindow extends JFrame implements ActionListener{
 					JOptionPane.showMessageDialog(null, "¡El archivo se ha cargado correctamente!",
 							"Archivo cargado", JOptionPane.INFORMATION_MESSAGE);
 					fillTable(controlador.getArticulos());
+					
 				} catch (FileNotFoundException e1) {
 					JOptionPane.showMessageDialog(null, "Archivo no encontrado",
 							"Error", JOptionPane.ERROR_MESSAGE);
@@ -225,6 +226,20 @@ public class MainWindow extends JFrame implements ActionListener{
 	{
 		HashMap<String, Articulo> art = controlador.getArticulos();
 		return art.get(nombre);
+	}
+
+
+
+
+	public void realizarPronosticos(int periodo, double[] porcent, double alfa, double beta) 
+	{
+		List<Articulo> ada = new ArrayList<Articulo>(controlador.getArticulos().values());
+		
+		for(int i = 0; i < ada.size(); i++)
+		{
+			ada.get(i).realizarPronosticos(periodo, porcent, alfa, beta);
+		}
+		
 	}
 
 }

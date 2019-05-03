@@ -12,6 +12,7 @@ import javax.swing.JComboBox;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
+import javax.swing.JTextArea;
 
 import modelo.Articulo;
 
@@ -23,12 +24,27 @@ public class PanelProductos extends JFrame implements ActionListener
 	private JButton botonIzquierda;
 	private JButton botonDerecha;
 	private int posicionActual;
-	private JLabel nombreArticulo;
 	
-	private JLabel valorPronosticoErratico;
-	private JLabel valorMADErratico;
-	private JLabel valorMSEErratico;
-	private JLabel valorMAPEErratico;
+//	//Erratico
+//	private JLabel valorPronosticoErratico;
+//	private JLabel valorMADErratico;
+//	private JLabel valorMSEErratico;
+//	private JLabel valorMAPEErratico;
+//	
+//	//HorizonalProMovilPonderado
+//	private JLabel valorPronosticohorPromdMovPonde;
+//	private JLabel valorMADhorPromdMovPonde;
+//	private JLabel valorMSEhorPromdMovPonde;
+//	private JLabel valorMAPEhorPromdMovPonde;
+	
+	private JPanel panelDatos;
+	private JLabel nombreArticulo;
+	private JTextArea erratico;
+	private JTextArea horProMovPonde;
+	private JTextArea horProMovSimple;
+	private JTextArea horSuaSimple;
+	private JTextArea suaExpSimple;
+	private JTextArea proyTende;
 	
 	private List<Articulo> listaArticulos;
 	
@@ -68,50 +84,39 @@ public class PanelProductos extends JFrame implements ActionListener
 		
 		panelSuperior.add(combo,BorderLayout.CENTER);
 		
+		panelDatos = new JPanel();
+		panelDatos.setLayout(new GridLayout(7,1));
+		nombreArticulo = new JLabel("");
+		 erratico = new JTextArea();
+		 horProMovPonde = new JTextArea();
+		 horProMovSimple = new JTextArea();
+		 horSuaSimple = new JTextArea();
+		 suaExpSimple = new JTextArea();
+		 proyTende = new JTextArea();
+		
+		erratico.setEditable(false);
+		horProMovPonde.setEditable(false);
+		horProMovSimple.setEditable(false);
+		horSuaSimple.setEditable(false);
+		suaExpSimple.setEditable(false);
+		proyTende.setEditable(false);
+		
+		panelDatos.add(nombreArticulo);
+		panelDatos.add(erratico);
+		panelDatos.add(horProMovPonde);
+		panelDatos.add(horProMovSimple);
+		panelDatos.add(horSuaSimple);
+		panelDatos.add(suaExpSimple);
+		panelDatos.add(proyTende);
+		
+		add(panelDatos, BorderLayout.CENTER);
+		
 		JPanel panelCentro = new JPanel();
 		panelCentro.setLayout(new BorderLayout());
 		
-		nombreArticulo = new JLabel("");
-		
-		panelCentro.add(BorderLayout.NORTH,nombreArticulo);
-		
-		JPanel panelDatos = new JPanel();
-		panelDatos.setLayout(new GridLayout(25,2));
-		
-		JLabel relleno = new JLabel("");
-		
-		
-		// Metodo Erraticoooo
-		
-		JLabel erratico = new JLabel("Metodo Erratico");
-		JLabel pronosticoErratico = new JLabel("Pronostico: ");
-		valorPronosticoErratico = new JLabel("");
-		JLabel etiquetaVAlorMADErratico = new JLabel("Valor MAD: ");
-		valorMADErratico = new JLabel("");
-		JLabel etiquetaVAlorMSEErratico = new JLabel("Valor MSE: ");
-		valorMSEErratico = new JLabel("");
-		JLabel etiquetaVAlorMAPEErratico = new JLabel("Valor MAPE: ");
-		valorMAPEErratico = new JLabel("");
-		
-		panelDatos.add(erratico);
-		panelDatos.add(relleno);
-		panelDatos.add(pronosticoErratico);
-		panelDatos.add(valorPronosticoErratico);
-		panelDatos.add(etiquetaVAlorMADErratico);
-		panelDatos.add(valorMADErratico);
-		panelDatos.add(etiquetaVAlorMSEErratico);
-		panelDatos.add(valorMSEErratico);
-		panelDatos.add(etiquetaVAlorMAPEErratico);
-		panelDatos.add(valorMAPEErratico);
-		
-		
-		//Metodo HorizontalPromedioMovilPonderado
-		
-		panelCentro.add(BorderLayout.CENTER,panelDatos);
-		
+				
 		add(botonIzquierda,BorderLayout.WEST);
 		add(botonDerecha,BorderLayout.EAST);
-		add(panelCentro, BorderLayout.CENTER);
 		add(panelSuperior,BorderLayout.NORTH );
 		setVisible(true);
 		mostrarDatosArticulos(listaArticulos.get(0));
@@ -130,6 +135,7 @@ public class PanelProductos extends JFrame implements ActionListener
 			else
 			{
 				posicionActual++;
+				System.out.println(posicionActual);
 				mostrarDatosArticulos(listaArticulos.get(posicionActual));
 			}
 		}
@@ -151,7 +157,54 @@ public class PanelProductos extends JFrame implements ActionListener
 
 	private void mostrarDatosArticulos(Articulo articulo) 
 	{
+		
 		nombreArticulo.setText(articulo.getNombreArticulo());
+		
+		
+		
+		erratico.setText("           Metodo Erratico" + "\n" + 
+						"Valor del pronostico: " +  "\n" +
+						"Valor MAD: " + "\n" +
+						"Valor MSE: " + "\n" + 
+						"Valor MAPE: ");
+		
+	
+		horProMovPonde.setText("           Metodo Horizontal promedio movil ponderado" + "\n" + 
+						"Valor del pronostico: " +  "\n" +
+						"Valor MAD: " + "\n" +
+						"Valor MSE: " + "\n" + 
+						"Valor MAPE: ");
+		
+		
+		horProMovSimple.setText("            Metodo Horizontal promedio movil simple" + "\n" + 
+						"Valor del pronostico: " +  "\n" +
+						"Valor MAD: " + "\n" +
+						"Valor MSE: " + "\n" + 
+						"Valor MAPE: ");
+		
+	
+		horSuaSimple.setText("           Metodo suavizado simple" + "\n" + 
+						"Valor del pronostico: " +  "\n" +
+						"Valor MAD: " + "\n" +
+						"Valor MSE: " + "\n" + 
+						"Valor MAPE: ");
+		
+	
+		suaExpSimple.setText("           Metodo suavizado exponencial doble" + "\n" + 
+						"Valor del pronostico: " +  "\n" +
+						"Valor MAD: " + "\n" +
+						"Valor MSE: " + "\n" + 
+						"Valor MAPE: ");
+		
+		
+		proyTende.setText("           Metodo proyeccion de tendencia" + "\n" + 
+						"Valor del pronostico: " +  "\n" +
+						"Valor MAD: " + "\n" +
+						"Valor MSE: " + "\n" + 
+						"Valor MAPE: ");
+		
+		
+	
 		repaint();	
 	}
 }

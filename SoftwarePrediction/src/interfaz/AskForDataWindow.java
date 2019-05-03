@@ -92,8 +92,9 @@ public class AskForDataWindow extends JFrame implements ActionListener{
 					porcent[i]=d;
 				}
 				
-				panelProductos = new PanelProductos(listaArticulos, principal);
 				
+				principal.realizarPronosticos(per, porcent, alfa, alfa);
+				panelProductos = new PanelProductos(listaArticulos, principal);
 				
 			}catch(NumberFormatException ex) {
 				ex.printStackTrace();

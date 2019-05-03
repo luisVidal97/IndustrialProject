@@ -2,15 +2,28 @@ package modelo;
 
 import java.util.ArrayList;
 
+import Servicios.ControladorServicios;
+
 public class Articulo 
 {
 	private String nombreArticulo;
 	private ArrayList<Double> demandaArticulo;
+	private ControladorServicios servicios;
 	
 	public Articulo(String nombre, ArrayList<Double> demanda ) 
 	{
 		nombreArticulo = nombre;
 		demandaArticulo = demanda;
+	}
+	
+	public void realizarPronosticos(int periodo, double[] porcent, double alfa, double beta)
+	{
+		double[] demanda = new double[demandaArticulo.size()];
+		for(int i = 0; i < demandaArticulo.size(); i++)
+		{
+			demanda[i] = demandaArticulo.get(i);
+		}
+		servicios = new ControladorServicios(demanda, periodo, porcent, alfa,beta);
 	}
 
 	public String getNombreArticulo() {
@@ -28,5 +41,15 @@ public class Articulo
 	public void setDemandaArticulo(ArrayList<Double> demandaArticulo) {
 		this.demandaArticulo = demandaArticulo;
 	}
+
+	public ControladorServicios getServicios() {
+		return servicios;
+	}
+
+	public void setServicios(ControladorServicios servicios) {
+		this.servicios = servicios;
+	}
+	
+	
 
 }
