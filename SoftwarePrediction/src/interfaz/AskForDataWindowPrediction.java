@@ -13,7 +13,7 @@ import javax.swing.*;
 
 import modelo.Articulo;
 
-public class AskForDataWindow extends JFrame implements ActionListener{
+public class AskForDataWindowPrediction extends JFrame implements ActionListener{
 
 	
 	public 	static String BTN_ACCEPT="ACEPTAR";
@@ -28,13 +28,13 @@ public class AskForDataWindow extends JFrame implements ActionListener{
 	
 	private JButton btnAccept;
 	
-	private PanelProductos panelProductos;
+	private PanelProductosPrediction panelProductos;
 	
 	private List<Articulo> listaArticulos;
 	
 	private MainWindow principal;
 	
-	public AskForDataWindow(List<Articulo> collection, MainWindow paginaPrincipal) {
+	public AskForDataWindowPrediction(List<Articulo> collection, MainWindow paginaPrincipal) {
 		
 		principal = paginaPrincipal;
 		listaArticulos = collection;
@@ -94,7 +94,7 @@ public class AskForDataWindow extends JFrame implements ActionListener{
 				
 				
 				principal.realizarPronosticos(per, porcent, alfa, alfa);
-				panelProductos = new PanelProductos(listaArticulos, principal);
+				panelProductos = new PanelProductosPrediction(listaArticulos, principal);
 				
 			}catch(NumberFormatException ex) {
 				ex.printStackTrace();

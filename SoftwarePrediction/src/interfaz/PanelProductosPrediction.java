@@ -4,6 +4,7 @@ import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.GridLayout;
+import java.awt.Toolkit;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.List;
@@ -18,7 +19,7 @@ import javax.swing.JTextField;
 
 import modelo.Articulo;
 
-public class PanelProductos extends JFrame implements ActionListener
+public class PanelProductosPrediction extends JFrame implements ActionListener
 {
 	
 	private MainWindow ventanaPrincipal;
@@ -40,9 +41,18 @@ public class PanelProductos extends JFrame implements ActionListener
 	
 	private List<Articulo> listaArticulos;
 	
-	public PanelProductos(List<Articulo> articulos, MainWindow principal)
+	public PanelProductosPrediction(List<Articulo> articulos, MainWindow principal)
 	{
-		this.setMinimumSize(new Dimension(600, 700)); 
+		
+		 //adapt Screen to resolution of computer
+		 Toolkit tk = Toolkit.getDefaultToolkit();
+		 Dimension d = tk.getScreenSize();
+		 int width = (int)d.getWidth() / 2;
+		 int height = (int)d.getHeight() / 2;
+		 setSize(width,height);
+		 setLocationRelativeTo(null);
+		
+		
 		this.setTitle("Products");
 		ventanaPrincipal = principal;
 		listaArticulos = articulos;

@@ -1,19 +1,15 @@
 package interfaz;
 
-import java.awt.BasicStroke;
 import java.awt.BorderLayout;
-import java.awt.Color;
 import java.awt.Dimension;
+import java.awt.GridLayout;
 import java.awt.Toolkit;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.io.File;
-import java.io.FileNotFoundException;
-import java.io.IOException;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
-
 import javax.swing.JButton;
 import javax.swing.JFileChooser;
 import javax.swing.JFrame;
@@ -40,6 +36,8 @@ public class MainWindow extends JFrame implements ActionListener{
 	
 	public static String BTN_GENERATE_PREDICTION="Generar Pronostico";
 	
+	public static String BTN_INVENTARY="Inventario";
+	
 	/**
 	 * Button for load the file with prediction
 	 */
@@ -48,10 +46,13 @@ public class MainWindow extends JFrame implements ActionListener{
 	
 	private JButton btnGeneratePrediction;
 	
+	private JButton btnInventary;
 	
 	private JTable tbTableData;
 	
-	private AskForDataWindow wdAskData;
+	private AskForDataWindowPrediction wdAskData;
+	
+	private LoadFilesInventary wdCargarInventario;
 	
 	/**
 	 * Conexion con el controlador principal de la aplicacion
@@ -88,10 +89,17 @@ public class MainWindow extends JFrame implements ActionListener{
 		btnGeneratePrediction.addActionListener(this);
 		btnGeneratePrediction.setActionCommand(BTN_GENERATE_PREDICTION);
 		
-		add(btnLoadPrediction, BorderLayout.SOUTH);
-	
+		btnInventary = new JButton(BTN_INVENTARY);
+		btnInventary.addActionListener(this);
+		btnInventary.setActionCommand(BTN_INVENTARY);;
 		
-		add(btnGeneratePrediction,BorderLayout.NORTH);
+		JPanel aux = new JPanel();
+		aux.setLayout(new GridLayout(1,2));
+		aux.add(btnGeneratePrediction);
+		aux.add(btnInventary);
+		
+		add(btnLoadPrediction, BorderLayout.SOUTH);
+		add(aux,BorderLayout.NORTH);
 		
 		setDefaultCloseOperation(EXIT_ON_CLOSE);
 	}
@@ -130,28 +138,29 @@ public class MainWindow extends JFrame implements ActionListener{
 			    File fichero=fc.getSelectedFile();
 			    try {
 					controlador.cargarArchivo(fichero);
+					fillTable(controlador.getArticulos());
 					JOptionPane.showMessageDialog(null, "¡El archivo se ha cargado correctamente!",
 							"Archivo cargado", JOptionPane.INFORMATION_MESSAGE);
-					fillTable(controlador.getArticulos());
 					
-				} catch (FileNotFoundException e1) {
-					JOptionPane.showMessageDialog(null, "Archivo no encontrado",
-							"Error", JOptionPane.ERROR_MESSAGE);
+				} catch (Exception e1) {
+					JOptionPane.showMessageDialog(null, "Archivo con formato incorrecto. Cagar de nuevo el archivo",
+							"Error al cargar el archivo", JOptionPane.ERROR_MESSAGE);
 					e1.printStackTrace();
-				} catch (IOException e1) {
-					// TODO Auto-generated catch block
-					JOptionPane.showMessageDialog(null, "No se pudo cargar el archivo correactamente",
-							"Error", JOptionPane.ERROR_MESSAGE);
-				}
+				} 
 			    
 			}
 		}else if(e.getActionCommand().equals(BTN_GENERATE_PREDICTION))
 		{
 			List<Articulo> ada = new ArrayList<Articulo>(controlador.getArticulos().values());
-			wdAskData  = new AskForDataWindow(ada, this);
+			wdAskData  = new AskForDataWindowPrediction(ada, this);
 			wdAskData.setVisible(true);
 			
 			
+		}else if(e.getActionCommand().equals(BTN_INVENTARY)) {
+			
+			
+			wdCargarInventario = new  LoadFilesInventary();
+			wdCargarInventario.setVisible(true);
 		}
 		
 		
