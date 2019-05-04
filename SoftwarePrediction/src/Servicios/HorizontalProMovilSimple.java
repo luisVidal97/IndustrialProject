@@ -25,10 +25,11 @@ public class HorizontalProMovilSimple implements IPronostico{
 		errorAbsolutoCuadrado = new double[periodos.length];
 		errorRelativo = new double[periodos.length];
 		
-		pronostico = calcularPronostico();
+		
 		mad = calcularMAD();
 		mse = calcularMSE();
 		mape = calcularMAPE();
+		pronostico = calcularPronostico();
 	}
 	
 	@Override

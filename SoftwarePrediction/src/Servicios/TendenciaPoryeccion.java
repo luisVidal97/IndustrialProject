@@ -15,10 +15,11 @@ public class TendenciaPoryeccion implements IPronostico{
 	public TendenciaPoryeccion(double[] values) 
 	{
 		periodos=values;
-		pronostico = calcularPronostico();
+		
 		mad = calcularMAD();
 		mse = calcularMSE();
 		mape = calcularMAPE();
+		pronostico = calcularPronostico();
 	}
 
 	public double promedioPeriodos(double tamanio) {

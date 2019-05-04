@@ -33,10 +33,11 @@ public class SuavizacionExponencialDoble implements IPronostico
 		errorABS = new double[periodos.length];
 		
 		calcularPendienteInterseccion();
-		pronostico = calcularPronostico();
+		
 		mad = calcularMAD();
 		mse = calcularMSE();
 		mape = calcularMAPE();
+		pronostico = calcularPronostico();
 		
 	}
 	

@@ -1,18 +1,16 @@
 package interfaz;
 
 import java.awt.BorderLayout;
+import java.awt.Color;
+import java.awt.Dimension;
 import java.awt.GridLayout;
-import java.awt.Panel;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.util.ArrayList;
 import java.util.List;
 
-import javax.swing.AbstractButton;
 import javax.swing.JButton;
 import javax.swing.JComboBox;
 import javax.swing.JFrame;
-import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTextArea;
@@ -22,6 +20,7 @@ import modelo.Articulo;
 
 public class PanelProductos extends JFrame implements ActionListener
 {
+	
 	private MainWindow ventanaPrincipal;
 	public static String BTN_IZQ = "Izquierda";
 	public static String BTN_DER = "Derecha";
@@ -43,6 +42,8 @@ public class PanelProductos extends JFrame implements ActionListener
 	
 	public PanelProductos(List<Articulo> articulos, MainWindow principal)
 	{
+		this.setMinimumSize(new Dimension(600, 700)); 
+		this.setTitle("Products");
 		ventanaPrincipal = principal;
 		listaArticulos = articulos;
 		posicionActual = 0;
@@ -164,10 +165,16 @@ public class PanelProductos extends JFrame implements ActionListener
 
 	private void mostrarDatosArticulos(Articulo articulo) 
 	{
-		
 		nombreArticulo.setText(articulo.getNombreArticulo());
-		nombreArticulo.setFont( nombreArticulo.getFont().deriveFont( 24f )); 
-		
+		nombreArticulo.setFont( nombreArticulo.getFont().deriveFont( 20f )); 
+		erratico.setForeground(Color.BLACK);
+		horProMovPonde.setForeground(Color.BLACK);
+		horProMovSimple.setForeground(Color.BLACK);
+		horSuaSimple.setForeground(Color.BLACK);
+		suaExpSimple.setForeground(Color.BLACK);
+		proyTende.setForeground(Color.BLACK);
+		double valorMenor = 0;
+		int indicadorMe = 0;
 		
 		erratico.setText("           Metodo Erratico" + "\n" + 
 						"Valor del pronostico: " + articulo.getServicios().getErratico().getPronostico()  +"\n" +
@@ -175,6 +182,8 @@ public class PanelProductos extends JFrame implements ActionListener
 						"Valor MSE: " + articulo.getServicios().getErratico().getMse() + "\n" + 
 						"Valor MAPE: " + articulo.getServicios().getErratico().getMape()+ "\n");
 		
+		valorMenor = articulo.getServicios().getErratico().getMse();
+		indicadorMe = 1;
 	
 		horProMovPonde.setText("           Metodo Horizontal promedio movil ponderado" + "\n" + 
 						"Valor del pronostico: " +  articulo.getServicios().getHorProMovilPonde().getPronostico() + "\n" +
@@ -182,6 +191,11 @@ public class PanelProductos extends JFrame implements ActionListener
 						"Valor MSE: " + articulo.getServicios().getHorProMovilPonde().getMse() + "\n" + 
 						"Valor MAPE: "+ articulo.getServicios().getHorProMovilPonde().getMape()+ "\n");
 		
+		if(articulo.getServicios().getHorProMovilPonde().getMse() < valorMenor)
+		{
+			valorMenor = articulo.getServicios().getHorProMovilPonde().getMse();
+			indicadorMe = 2;
+		}
 		
 		horProMovSimple.setText("            Metodo Horizontal promedio movil simple" + "\n" + 
 						"Valor del pronostico: " +  articulo.getServicios().getHorProMovilSimple().getPronostico() + "\n" +
@@ -189,11 +203,24 @@ public class PanelProductos extends JFrame implements ActionListener
 						"Valor MSE: " + articulo.getServicios().getHorProMovilSimple().getMse() +"\n" + 
 						"Valor MAPE: " + articulo.getServicios().getHorProMovilSimple().getMape() + "\n");
 		
+		if( articulo.getServicios().getHorProMovilSimple().getMse()< valorMenor)
+		{
+			valorMenor =  articulo.getServicios().getHorProMovilSimple().getMse();
+			indicadorMe = 3;
+		}
 	
 		horSuaSimple.setText("           Metodo suavizado simple" + "\n" + 
 						"Valor del pronostico: " +  articulo.getServicios().getHorSuaziSimple().getPronostico() + "\n" +
-						"Valor MAD: " + articulo.getServicios().getHorSuaziSimple().getMad() + "\n" );
+						"Valor MAD: " + articulo.getServicios().getHorSuaziSimple().getMad() + "\n" +
+						"Valor MSE: " + articulo.getServicios().getHorSuaziSimple().getMse()+ "\n" + 
+						"Valor MAPE: "+ articulo.getServicios().getHorSuaziSimple().getMape() +  "\n");
 		
+		if(articulo.getServicios().getHorSuaziSimple().getMse() < valorMenor)
+		{
+			valorMenor =articulo.getServicios().getHorSuaziSimple().getMse();
+			indicadorMe = 4;
+			
+		}
 	
 		suaExpSimple.setText("           Metodo suavizado exponencial doble" + "\n" + 
 						"Valor del pronostico: " + articulo.getServicios().getSuaviExpoDoble().getPronostico() +  "\n" +
@@ -201,6 +228,11 @@ public class PanelProductos extends JFrame implements ActionListener
 						"Valor MSE: " + articulo.getServicios().getSuaviExpoDoble().getMse()+ "\n" + 
 						"Valor MAPE: "+ articulo.getServicios().getSuaviExpoDoble().getMape() +  "\n");
 		
+		if(articulo.getServicios().getSuaviExpoDoble().getMse() < valorMenor)
+		{
+			valorMenor = articulo.getServicios().getSuaviExpoDoble().getMse();
+			indicadorMe = 5;
+		}
 		
 		proyTende.setText("           Metodo proyeccion de tendencia" + "\n" + 
 						"Valor del pronostico: " + articulo.getServicios().getProyeTende().getPronostico() +  "\n" +
@@ -208,8 +240,39 @@ public class PanelProductos extends JFrame implements ActionListener
 						"Valor MSE: " + articulo.getServicios().getProyeTende().getMse() + "\n" + 
 						"Valor MAPE: " + articulo.getServicios().getProyeTende().getMape() +  "\n");
 		
+		if(articulo.getServicios().getProyeTende().getMse() < valorMenor)
+		{
+			valorMenor = articulo.getServicios().getProyeTende().getMse();
+			indicadorMe = 6;
+		}
 		
+		switch (indicadorMe)
+		{
+	        case 1:
+	        	erratico.setForeground(Color.RED);
+	        break;
 	
+	        case 2:
+	        	horProMovPonde.setForeground(Color.RED);
+	        break;
+	        
+	        case 3:
+	        	horProMovSimple.setForeground(Color.RED);
+		        break;
+		        
+	        case 4:
+	        	horSuaSimple.setForeground(Color.RED);
+		        break;
+		        
+	        case 5:
+	        	suaExpSimple.setForeground(Color.RED);
+		        break;
+		        
+	        case 6:
+	        	proyTende.setForeground(Color.RED);
+		        break;
+        }
+		
 		repaint();	
 	}
 }

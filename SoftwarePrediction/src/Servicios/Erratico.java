@@ -11,10 +11,11 @@ public class Erratico implements IPronostico{
 	public Erratico(double[] values) 
 	{
 		periodos=values;
-		pronostico = calcularPronostico();
+		
 		mad = calcularMAD();
 		mse = calcularMSE();
 		mape = calcularMAPE();
+		pronostico = calcularPronostico();
 	}
 	
 
