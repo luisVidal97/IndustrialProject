@@ -24,15 +24,23 @@ public class Articulo
 		volumenAnual = 0;
 	}
 	
-
-	public void realizarPronosticos(int periodo, double[] porcent, double alfa, double beta)
+	/**
+	 * 
+	 * @param periodo
+	 * @param porcent
+	 * @param alfaSimple
+	 * @param alfaDoble
+	 * @param betaDoble
+	 * @param perSuavizacionDoble
+	 */
+	public void realizarPronosticos(int periodo, double[] porcent, double alfaSimple, double alfaDoble, double betaDoble, int perSuavizacionDoble)
 	{
 		double[] demanda = new double[demandaArticulo.size()];
 		for(int i = 0; i < demandaArticulo.size(); i++)
 		{
 			demanda[i] = demandaArticulo.get(i);
 		}
-		servicios = new ControladorServicios(demanda, periodo, porcent, alfa,beta);
+		servicios = new ControladorServicios(demanda, periodo, porcent, alfaSimple,alfaDoble,betaDoble,perSuavizacionDoble);
 	}
 
 	public String getClase() {

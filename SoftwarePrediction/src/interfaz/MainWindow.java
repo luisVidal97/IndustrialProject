@@ -240,13 +240,13 @@ public class MainWindow extends JFrame implements ActionListener
 
 
 
-	public void realizarPronosticos(int periodo, double[] porcent, double alfa, double beta) 
+	public void realizarPronosticos(int periodo, double[] porcent, double alfaSimple, double alfaDoble, double betaDoble, int perSuavizacionDoble) 
 	{
 		List<Articulo> ada = new ArrayList<Articulo>(controlador.getArticulos().values());
 		
 		for(int i = 0; i < ada.size(); i++)
 		{
-			ada.get(i).realizarPronosticos(periodo, porcent, alfa, beta);
+			ada.get(i).realizarPronosticos(periodo, porcent, alfaSimple, alfaDoble,betaDoble,perSuavizacionDoble);
 		}
 		
 	}

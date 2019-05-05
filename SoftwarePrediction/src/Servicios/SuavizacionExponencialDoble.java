@@ -7,7 +7,8 @@ public class SuavizacionExponencialDoble implements IPronostico
 	private int numeroPeriodo;
 	private double alfa;
 	private double beta;
-	private double interseccion;
+	
+	private double intersection;
 	private double pendiente;
 	private double[] st;
 	private double[] tt;
@@ -20,16 +21,23 @@ public class SuavizacionExponencialDoble implements IPronostico
 	private double mape;
 	
 	
-	
+	/**
+	 * Method Constructor
+	 * @param value
+	 * @param numeroPer
+	 * @param alfaValor
+	 * @param betaValor
+	 */
 	public SuavizacionExponencialDoble(double[] value, int numeroPer, double alfaValor, double betaValor)
 	{
 		periodos = value;
 		numeroPeriodo = numeroPer;
 		alfa = alfaValor;
 		beta = betaValor;
-		st = new double[periodos.length];
-		tt = new double[periodos.length];
-		pronosticos = new double[periodos.length];
+		
+		st = new double[periodos.length+1];
+		tt = new double[periodos.length+1];
+		pronosticos = new double[periodos.length+1];
 		errorABS = new double[periodos.length];
 		
 		calcularPendienteInterseccion();
@@ -43,13 +51,38 @@ public class SuavizacionExponencialDoble implements IPronostico
 	
 	
 	
-
+	/**
+	 * 
+	 */
 	private void calcularPendienteInterseccion() {
-		// TODO Auto-generated method stub
+	
+		double pendienteNumerador = 0;
+		double pendienteDenominador = 0;
+		for (int i = 0; i < periodos.length; i++) {
+
+			pendienteNumerador +=(((i+1)-promedioPeriodos(periodos.length))*(periodos[i]-promedio(periodos)));
+			pendienteDenominador+=(Math.pow(((i+1)-promedioPeriodos(periodos.length)), 2));
+
+		}
 		
+		pendiente = pendienteNumerador/pendienteDenominador;
+		intersection= promedio(periodos) -(pendiente*promedioPeriodos(periodos.length));
 	}
 
-
+	/**
+	 * Help to calculate  average for use in tha calculation of slope and intersection
+	 * @param tamanio
+	 * @return
+	 */
+	public double promedioPeriodos(double tamanio) {
+		double n = 0;
+		for (int i = 0; i < tamanio; i++) {
+			n+=(i+1);
+			
+		}
+		
+		return n/tamanio;
+	}
 
 
 	@Override
@@ -89,55 +122,33 @@ public class SuavizacionExponencialDoble implements IPronostico
 		return pronostico;
 	}
 
-
-
-
 	public void setPronostico(double pronostico) {
 		this.pronostico = pronostico;
 	}
-
-
-
 
 	public double getMad() {
 		return mad;
 	}
 
-
-
-
 	public void setMad(double mad) {
 		this.mad = mad;
 	}
-
-
-
 
 	public double getMse() {
 		return mse;
 	}
 
-
-
-
 	public void setMse(double mse) {
 		this.mse = mse;
 	}
 
-
-
-
 	public double getMape() {
 		return mape;
 	}
-
-
-
 
 	public void setMape(double mape) {
 		this.mape = mape;
 	}
 	
 	
-
 }

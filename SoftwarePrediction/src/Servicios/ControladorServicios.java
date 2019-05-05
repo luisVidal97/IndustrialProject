@@ -9,13 +9,24 @@ public class ControladorServicios
 	private SuavizacionExponencialDoble suaviExpoDoble;
 	private TendenciaPoryeccion proyeTende;
 	
-	public ControladorServicios(double[] demanda, int numero, double[] porcent,double alfa, double beta)
+	/**
+	 * Constructor Method
+	 * 
+	 * @param demanda
+	 * @param numero
+	 * @param porcent
+	 * @param alfaSimple
+	 * @param alfaDoble
+	 * @param betaDoble
+	 * @param perSuavizacionDoble
+	 */
+	public ControladorServicios(double[] demanda, int numero, double[] porcent,double alfaSimple, double alfaDoble, double betaDoble, int perSuavizacionDoble)
 	{
 		erratico = new Erratico(demanda);
 		horProMovilPonde = new HorizontalProMovilPonderado(demanda, numero, porcent);
 		horProMovilSimple = new HorizontalProMovilSimple(demanda, numero);
-		horSuaziSimple = new HorizontalSuavizadoSimple(demanda, alfa);
-		suaviExpoDoble = new SuavizacionExponencialDoble(demanda, numero, alfa, beta);
+		horSuaziSimple = new HorizontalSuavizadoSimple(demanda, alfaSimple);
+		suaviExpoDoble = new SuavizacionExponencialDoble(demanda, perSuavizacionDoble, alfaDoble, betaDoble);
 		proyeTende = new TendenciaPoryeccion(demanda);
 	}
 
