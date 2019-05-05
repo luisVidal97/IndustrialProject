@@ -30,8 +30,6 @@ import modelo.Controlador;
 public class MainWindow extends JFrame implements ActionListener
 {
 
-	
-	
 	/**
 	 * Constant asociated to btnLoadPrediction
 	 */

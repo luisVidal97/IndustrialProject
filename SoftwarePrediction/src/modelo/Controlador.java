@@ -152,11 +152,13 @@ public class Controlador
 			}
 			
 		}
+		
+		iniciarClasificacionABC();
 	}
 	
 	
 	public void iniciarClasificacionABC() {
-		
+		clasificacionABC = new ClasificacionABC(articulos);
 		
 	}
 	
