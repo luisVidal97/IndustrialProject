@@ -7,6 +7,8 @@ import java.awt.Toolkit;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -25,14 +27,15 @@ import javax.swing.filechooser.FileNameExtensionFilter;
 import modelo.Articulo;
 import modelo.Controlador;
 
-public class MainWindow extends JFrame implements ActionListener{
+public class MainWindow extends JFrame implements ActionListener
+{
 
 	
 	
 	/**
 	 * Constant asociated to btnLoadPrediction
 	 */
-	public static String BTN_LOAD= "CargarArchivos";
+	public static String BTN_LOADPRO= "CargarArchivosPronosticos";
 	
 	public static String BTN_GENERATE_PREDICTION="Generar Pronostico";
 	
@@ -81,9 +84,9 @@ public class MainWindow extends JFrame implements ActionListener{
 		
 		setLayout(new BorderLayout());
 		
-		btnLoadPrediction = new JButton(BTN_LOAD);
+		btnLoadPrediction = new JButton(BTN_LOADPRO);
 		btnLoadPrediction.addActionListener(this);
-		btnLoadPrediction.setActionCommand(BTN_LOAD);
+		btnLoadPrediction.setActionCommand(BTN_LOADPRO);
 		
 		btnGeneratePrediction = new JButton(BTN_GENERATE_PREDICTION);
 		btnGeneratePrediction.addActionListener(this);
@@ -115,7 +118,7 @@ public class MainWindow extends JFrame implements ActionListener{
 	{
 		
 		//Logica encargada de la opcion para que el usuario escoja el archivo
-		if(e.getActionCommand().equals("CargarArchivos"))
+		if(e.getActionCommand().equals(BTN_LOADPRO))
 		{
 			JPanel panelSeleccion = new JPanel();
 			
@@ -137,7 +140,7 @@ public class MainWindow extends JFrame implements ActionListener{
 			    //Seleccionamos el fichero
 			    File fichero=fc.getSelectedFile();
 			    try {
-					controlador.cargarArchivo(fichero);
+					controlador.cargarArchivoPronosticos(fichero);
 					fillTable(controlador.getArticulos());
 					JOptionPane.showMessageDialog(null, "¡El archivo se ha cargado correctamente!",
 							"Archivo cargado", JOptionPane.INFORMATION_MESSAGE);
@@ -159,7 +162,7 @@ public class MainWindow extends JFrame implements ActionListener{
 		}else if(e.getActionCommand().equals(BTN_INVENTARY)) {
 			
 			
-			wdCargarInventario = new  LoadFilesInventary();
+			wdCargarInventario = new  LoadFilesInventary(this);
 			wdCargarInventario.setVisible(true);
 		}
 		
@@ -249,6 +252,33 @@ public class MainWindow extends JFrame implements ActionListener{
 			ada.get(i).realizarPronosticos(periodo, porcent, alfa, beta);
 		}
 		
+	}
+	
+	public void cargarArchivoClasificacion(File archivo)
+	{
+		try 
+		{
+			controlador.cargarArchivoClasificacion(archivo);
+			JOptionPane.showMessageDialog(null, "¡El archivo se ha cargado correctamente!",
+					"Archivo cargado", JOptionPane.INFORMATION_MESSAGE);
+			
+			List<Articulo> ada = new ArrayList<Articulo>(controlador.getArticulos().values());
+			for(int i = 0; i < ada.size(); i++)
+			{
+				System.out.println(ada.get(i).getNombreArticulo() + " " + 
+				ada.get(i).getVolumenAnual());
+			}
+		} 
+		catch (Exception e1) {
+			JOptionPane.showMessageDialog(null, "Archivo con formato incorrecto. Cagar de nuevo el archivo",
+					"Error al cargar el archivo", JOptionPane.ERROR_MESSAGE);
+			e1.printStackTrace();
+		} 
+	}
+	
+	public void cargarArchivoLeadTime(File archivo)
+	{
+		controlador.cargarArchivoLeadTime(archivo);
 	}
 
 }

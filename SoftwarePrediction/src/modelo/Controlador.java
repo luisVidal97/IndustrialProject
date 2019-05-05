@@ -37,7 +37,7 @@ public class Controlador
 	 * @throws FileNotFoundException
 	 * @throws IOException
 	 */
-	public void cargarArchivo(File archivoExcel) throws FileNotFoundException, IOException 
+	public void cargarArchivoPronosticos(File archivoExcel) throws FileNotFoundException, IOException 
 	{
 		XSSFWorkbook libroExcel = new XSSFWorkbook(new FileInputStream(archivoExcel)); //crear un libro excel
 		XSSFSheet hojaActual = libroExcel.getSheetAt(0); //acceder a la primera hoja
@@ -79,7 +79,15 @@ public class Controlador
 					}
 				}
 				Articulo articuloNuevo = new Articulo(nombreArticulo, demanda);
-				articulos.put(nombreArticulo, articuloNuevo);
+				
+				if(articulos.get(nombreArticulo) != null)
+				{
+					articulos.get(nombreArticulo).setDemandaArticulo(demanda);
+				}
+				else
+				{
+					articulos.put(nombreArticulo, articuloNuevo);
+				}
 				contadorColumnas++; //Aumento esto para pasar al siguiente articulo
 				segundaSalida=true;
 			}
@@ -88,13 +96,59 @@ public class Controlador
 				primerSalida = false;
 			}
 		}
-//		List<Articulo> valueList = new ArrayList<Articulo>(articulos.values());
-//		
-//		for(int i = 0; i < valueList.size(); i++)
-//		{
-//			String nombre =valueList.get(i).getNombreArticulo();
-//			ArrayList sfas = valueList.get(i).getDemandaArticulo();
-//		}		
+		
+	}
+	
+	public void cargarArchivoClasificacion(File archivo) throws FileNotFoundException, IOException
+	{
+		XSSFWorkbook libroExcel = new XSSFWorkbook(new FileInputStream(archivo)); //crear un libro excel
+		XSSFSheet hojaActual = libroExcel.getSheetAt(0); //acceder a la primera hoja
+		boolean primerSalida = true;
+		int contadorFilas = 2; // Este contador me sirve para manejar las filas
+		Row filaNombreProducto = hojaActual.getRow(contadorFilas); //acceder a la  fila donde se encuentran los productos
+		
+		while(primerSalida && filaNombreProducto!=null)
+		{
+			filaNombreProducto = hojaActual.getRow(contadorFilas);
+			if(filaNombreProducto != null)
+			{
+				Cell celdaActualNombre = filaNombreProducto.getCell(0); //Aqui cojo cada uno de los nombres de los articulos
+				if(celdaActualNombre !=null)
+				{
+					String nombreArticulo = celdaActualNombre.getStringCellValue(); //Aqui guardo el nombre del articulo
+					Cell celdaActualValorAnual = filaNombreProducto.getCell(1); //Aqui cojo cada uno de los nombres de los articulos
+					double valorAnual = celdaActualValorAnual.getNumericCellValue();
+					
+					
+					Articulo articuloNuevo = new Articulo(nombreArticulo, null);
+					
+					if(articulos.get(nombreArticulo) != null)
+					{
+						articulos.get(nombreArticulo).setVolumenAnual(valorAnual);
+					}
+					else
+					{
+						articulos.put(nombreArticulo, articuloNuevo);
+						articulos.get(nombreArticulo).setVolumenAnual(valorAnual);
+					}
+					contadorFilas++; //Aumento esto para pasar al siguiente articulo
+				}
+				else
+				{
+					primerSalida = false;
+				}
+			}
+			else
+			{
+				primerSalida = false;
+			}
+			
+		}
+	}
+	
+	public void cargarArchivoLeadTime(File archivo)
+	{
+		
 	}
 
 	public HashMap<String, Articulo> getArticulos() {

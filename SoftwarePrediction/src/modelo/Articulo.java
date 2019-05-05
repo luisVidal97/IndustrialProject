@@ -9,11 +9,13 @@ public class Articulo
 	private String nombreArticulo;
 	private ArrayList<Double> demandaArticulo;
 	private ControladorServicios servicios;
+	private double volumenAnual;
 	
 	public Articulo(String nombre, ArrayList<Double> demanda ) 
 	{
 		nombreArticulo = nombre;
 		demandaArticulo = demanda;
+		volumenAnual = 0;
 	}
 	
 	public void realizarPronosticos(int periodo, double[] porcent, double alfa, double beta)
@@ -48,6 +50,14 @@ public class Articulo
 
 	public void setServicios(ControladorServicios servicios) {
 		this.servicios = servicios;
+	}
+
+	public double getVolumenAnual() {
+		return volumenAnual;
+	}
+
+	public void setVolumenAnual(double volumenAnual) {
+		this.volumenAnual = volumenAnual;
 	}
 	
 	
