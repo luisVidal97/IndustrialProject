@@ -9,12 +9,12 @@ public class Orden {
 	
 	private Date fechaOrden;
 	
-	private int numeroDespacho;
+	private double numeroDespacho;
 	
-	private int cantidadDespachada;
+	private double cantidadDespachada;
 	
 	
-	public Orden(String numerOrden, Date fechaOrden, int numeroDespacho,int cantidadDespachada) {
+	public Orden(String numerOrden, Date fechaOrden, double numeroDespacho,double cantidadDespachada) {
 		
 		this.numerOrden = numerOrden;
 		this.fechaOrden = fechaOrden;
@@ -45,7 +45,7 @@ public class Orden {
 	}
 
 
-	public int getNumeroDespacho() {
+	public double getNumeroDespacho() {
 		return numeroDespacho;
 	}
 
@@ -55,7 +55,7 @@ public class Orden {
 	}
 
 
-	public int getCantidadDespachada() {
+	public double getCantidadDespachada() {
 		return cantidadDespachada;
 	}
 

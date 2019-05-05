@@ -5,6 +5,7 @@ import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.HashMap;
 
 import org.apache.poi.ss.usermodel.Cell;
@@ -25,6 +26,7 @@ public class Controlador
 	 * Atributo que contiene todos los articulos, cuya clave es su nombre
 	 */
 	HashMap<String, Articulo> articulos = new HashMap<String, Articulo>();
+	HashMap<String, SolicitudPedido> solicitudes = new HashMap<String, SolicitudPedido>();
 	
 	private Erratico erratico;
 	private TendenciaPoryeccion tendenciaProye;
@@ -98,7 +100,6 @@ public class Controlador
 				primerSalida = false;
 			}
 		}
-		
 	}
 	
 	/**
@@ -177,9 +178,68 @@ public class Controlador
 		this.clasificacionABC = clasificacionABC;
 	}
 
-	public void cargarArchivoLeadTime(File archivo)
+	public void cargarArchivoLeadTime(File archivo) throws FileNotFoundException, IOException
 	{
-		
+		XSSFWorkbook libroExcel = new XSSFWorkbook(new FileInputStream(archivo)); //crear un libro excel
+		XSSFSheet hojaActual = libroExcel.getSheetAt(0); //acceder a la primera hoja
+		boolean primerSalida = true;
+		int contadorFilas = 3; // Este contador me sirve para manejar las filas
+		Row filaNombreProducto = hojaActual.getRow(contadorFilas); //acceder a la  fila donde se encuentran los productos
+		while(primerSalida && filaNombreProducto!=null)
+		{
+			filaNombreProducto = hojaActual.getRow(contadorFilas);
+			if(filaNombreProducto != null)
+			{
+				Cell celdaActualNombre = filaNombreProducto.getCell(1); //Aqui cojo cada uno de los nombres de los solicitudes
+				if(celdaActualNombre !=null)
+				{
+					String numeroSoliticitud = celdaActualNombre.getStringCellValue(); //Aqui guardo el nombre del articulo
+					Cell celdaProveedor = filaNombreProducto.getCell(0); //Aqui cojo cada uno de los nombres de los proveedores
+					String nombreProveedor = celdaProveedor.getStringCellValue();
+					
+					Cell celdaCantidadSolicitada = filaNombreProducto.getCell(2);  //CantidadSolicitada
+					double cantidadSolicitada  = celdaCantidadSolicitada.getNumericCellValue();
+					
+					Cell celdaFechaSolitud = filaNombreProducto.getCell(3);  //Fecha de la solicitud
+					Date fechaSolicitud = celdaFechaSolitud.getDateCellValue();
+					
+					//Datos de la orden 
+					Cell celdaNumeroOrden = filaNombreProducto.getCell(4);
+					String numeroOrder = celdaNumeroOrden.getStringCellValue();
+					
+					Cell celdaFechaOrden = filaNombreProducto.getCell(5);
+					Date fechaOrden = celdaFechaOrden.getDateCellValue();
+					
+					Cell celdaNumeroDespacho= filaNombreProducto.getCell(6);
+					double numeroDespacho = celdaNumeroDespacho.getNumericCellValue();
+					
+					Cell celdaCantidadDespachada = filaNombreProducto.getCell(7);
+					double cantidadDespachada = celdaCantidadDespachada.getNumericCellValue();
+					
+					Orden ordenNueva = new Orden(numeroOrder, fechaOrden, numeroDespacho, cantidadDespachada);
+					
+					if(solicitudes.get(numeroSoliticitud) == null)
+					{
+						SolicitudPedido nuevaSolicitud = new SolicitudPedido(cantidadSolicitada, fechaSolicitud, nombreProveedor, numeroSoliticitud,ordenNueva);
+						solicitudes.put(numeroSoliticitud, nuevaSolicitud);
+					}
+					else
+					{
+						solicitudes.get(numeroSoliticitud).agregarNuevaOrden(ordenNueva);
+					}
+					contadorFilas++; //Aumento esto para pasar al siguiente articulo
+				}
+				else
+				{
+					primerSalida = false;
+				}
+			}
+			else
+			{
+				primerSalida = false;
+			}
+			
+		}
 	}
 
 	public HashMap<String, Articulo> getArticulos() {

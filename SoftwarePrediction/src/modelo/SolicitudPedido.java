@@ -2,11 +2,12 @@ package modelo;
 
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.HashMap;
 
 public class SolicitudPedido {
 
 	
-	private int cantidadSolicitada;
+	private double cantidadSolicitada;
 	
 	private Date fechaSolicitud;
 	
@@ -14,24 +15,28 @@ public class SolicitudPedido {
 	
 	private String numeroSolicitud;
 	
-	private ArrayList<Orden> ordenes;
+	HashMap<String, Orden> ordenes = new HashMap<String, Orden>();
 
 	
-	public SolicitudPedido(int cantidadSolicitada, Date fechaSolicitud, String proveedor, String numeroSolicitud,
-			ArrayList<Orden> ordenes) {
+	public SolicitudPedido(double cantidadSolicitada, Date fechaSolicitud, String proveedor, String numeroSolicitud, Orden orden) {
 		super();
 		this.cantidadSolicitada = cantidadSolicitada;
 		this.fechaSolicitud = fechaSolicitud;
 		this.proveedor = proveedor;
 		this.numeroSolicitud = numeroSolicitud;
-		this.ordenes = ordenes;
+		
+		if(ordenes.get(orden.getNumerOrden()) == null)
+		{
+			ordenes.put(orden.getNumerOrden(), orden);
+		}
+		
 	}
 
-	public int getCantidadSolicitada() {
+	public double getCantidadSolicitada() {
 		return cantidadSolicitada;
 	}
 
-	public void setCantidadSolicitada(int cantidadSolicitada) {
+	public void setCantidadSolicitada(double cantidadSolicitada) {
 		this.cantidadSolicitada = cantidadSolicitada;
 	}
 
@@ -59,13 +64,23 @@ public class SolicitudPedido {
 		this.numeroSolicitud = numeroSolicitud;
 	}
 
-	public ArrayList<Orden> getOrdenes() {
+	public HashMap<String, Orden> getOrdenes() {
 		return ordenes;
 	}
 
-	public void setOrdenes(ArrayList<Orden> ordenes) {
+	public void setOrdenes(HashMap<String, Orden> ordenes) {
 		this.ordenes = ordenes;
 	}
+	
+	public void agregarNuevaOrden(Orden nuevaOrden)
+	{
+		if(ordenes.get(nuevaOrden.getNumerOrden()) == null)
+		{
+			ordenes.put(nuevaOrden.getNumerOrden(), nuevaOrden);
+		}
+	}
+
+	
 	
 	
 	

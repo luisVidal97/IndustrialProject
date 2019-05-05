@@ -258,8 +258,7 @@ public class MainWindow extends JFrame implements ActionListener
 			controlador.cargarArchivoClasificacion(archivo);
 			JOptionPane.showMessageDialog(null, "¡El archivo se ha cargado correctamente!",
 					"Archivo cargado", JOptionPane.INFORMATION_MESSAGE);
-			
-			List<Articulo> ada = new ArrayList<Articulo>(controlador.getArticulos().values());
+			//		List<Articulo> ada = new ArrayList<Articulo>(controlador.getArticulos().values());
 //			for(int i = 0; i < ada.size(); i++)
 //			{
 //				System.out.println(ada.get(i).getNombreArticulo() + " " + 
@@ -275,7 +274,15 @@ public class MainWindow extends JFrame implements ActionListener
 	
 	public void cargarArchivoLeadTime(File archivo)
 	{
-		controlador.cargarArchivoLeadTime(archivo);
+		try {
+			controlador.cargarArchivoLeadTime(archivo);
+			JOptionPane.showMessageDialog(null, "¡El archivo se ha cargado correctamente!",
+					"Archivo cargado", JOptionPane.INFORMATION_MESSAGE);
+		} catch (IOException e) {
+			JOptionPane.showMessageDialog(null, "Archivo con formato incorrecto. Cagar de nuevo el archivo",
+					"Error al cargar el archivo", JOptionPane.ERROR_MESSAGE);
+			e.printStackTrace();
+		}
 	}
 
 
