@@ -3,8 +3,8 @@ package Servicios;
 public class SuavizacionExponencialDoble implements IPronostico
 {
 
-	private double[] periodos;
-	private int numeroPeriodo;
+	private double[] demanda;
+	private int numeroPeriodos;
 	private double alfa;
 	private double beta;
 	
@@ -30,43 +30,54 @@ public class SuavizacionExponencialDoble implements IPronostico
 	 */
 	public SuavizacionExponencialDoble(double[] value, int numeroPer, double alfaValor, double betaValor)
 	{
-		periodos = value;
-		numeroPeriodo = numeroPer;
+		demanda = value;
+		numeroPeriodos = numeroPer;
 		alfa = alfaValor;
 		beta = betaValor;
 		
-		st = new double[periodos.length+1];
-		tt = new double[periodos.length+1];
-		pronosticos = new double[periodos.length+1];
-		errorABS = new double[periodos.length];
+		st = new double[demanda.length+1];
+		tt = new double[demanda.length+1];
+		pronosticos = new double[demanda.length+1];
+		errorABS = new double[demanda.length];
 		
 		calcularPendienteInterseccion();
 		
+		pronostico = calcularPronostico();
 		mad = calcularMAD();
 		mse = calcularMSE();
 		mape = calcularMAPE();
-		pronostico = calcularPronostico();
 		
 	}
 	
 	
 	
 	/**
-	 * 
+	 * it is ok
 	 */
 	private void calcularPendienteInterseccion() {
 	
 		double pendienteNumerador = 0;
 		double pendienteDenominador = 0;
-		for (int i = 0; i < periodos.length; i++) {
+		
+		//periodos antes de inicializas st y tt
+		double a[] = new double[numeroPeriodos];
+		for (int i = 0; i < a.length; i++) {
+			a[i]=demanda[i];
+		
+		}
+		
+		
+		
+		for (int i = 0; i < numeroPeriodos; i++) {
 
-			pendienteNumerador +=(((i+1)-promedioPeriodos(periodos.length))*(periodos[i]-promedio(periodos)));
-			pendienteDenominador+=(Math.pow(((i+1)-promedioPeriodos(periodos.length)), 2));
+			pendienteNumerador +=(((i+1)-promedioPeriodos(numeroPeriodos))*(a[i]-promedio(a)));
+			pendienteDenominador+=(Math.pow(((i+1)-promedioPeriodos(a.length)), 2));
 
 		}
 		
 		pendiente = pendienteNumerador/pendienteDenominador;
-		intersection= promedio(periodos) -(pendiente*promedioPeriodos(periodos.length));
+		intersection= promedio(a) -(pendiente*promedioPeriodos(a.length));
+		
 	}
 
 	/**
@@ -80,27 +91,70 @@ public class SuavizacionExponencialDoble implements IPronostico
 			n+=(i+1);
 			
 		}
-		
 		return n/tamanio;
 	}
 
-
+	/**
+	 * 
+	 */
 	@Override
 	public double calcularPronostico() {
-		// TODO Auto-generated method stub
-		return 0;
+		
+		for (int i = 0; i < st.length; i++) {
+			if(i<numeroPeriodos) {
+				st[i]=0;
+				tt[i]=0;		
+			}else {
+				if(i==numeroPeriodos) {
+					st[i]=intersection;
+					tt[i]=pendiente;
+				}else {
+					st[i]= (alfa*demanda[i-1])+((1-alfa)*(st[i-1]-tt[i-1]));
+					tt[i]=beta*(st[i]-st[i-1])+((1-beta)*tt[i-1]);
+				}
+			}
+			System.out.println(errorABS.length+ " :Tmana");
+			pronosticos[i]=Math.ceil( st[i]-tt[i] );
+			if(i<= errorABS.length-1 && pronosticos[i]!=0) {
+				errorABS[i]= Math.abs(demanda[i]-pronosticos[i]);
+			}else if(i<= errorABS.length-1	){
+				errorABS[i]=0;
+			}
+			System.out.println(pronosticos[i]+" i:"+i);
+		}	
+		return pronosticos[pronosticos.length-1];
 	}
 
 	@Override
 	public double calcularMAD() {
-		// TODO Auto-generated method stub
-		return 0;
+		
+		double valorMAD = 0;
+		int c=0;
+		for(int i = 0; i < errorABS.length;i++)
+		{
+			if(errorABS[i]!=0) {
+				valorMAD += errorABS[i];
+				c++;
+			}
+		}
+		return Math.ceil(valorMAD/c);
 	}
 
 	@Override
 	public double calcularMSE() {
-		// TODO Auto-generated method stub
-		return 0;
+		
+		double count=0;
+		double cuadrados=0;
+		
+		for (int i = 0; i < errorABS.length; i++) {
+		
+			
+			if(errorABS[i]!=0) {
+				cuadrados += Math.pow(errorABS[i], 2);
+				count++;
+			}
+		}
+		return Math.ceil(cuadrados/count);
 	}
 
 	@Override
@@ -111,8 +165,11 @@ public class SuavizacionExponencialDoble implements IPronostico
 
 	@Override
 	public double promedio(double[] v) {
-		// TODO Auto-generated method stub
-		return 0;
+		double prom = 0.0;
+	    for ( int i = 0; i < v.length; i++ )
+	      prom += v[i];
+
+	    return prom / ( double ) v.length; 
 	}
 
 
