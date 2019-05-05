@@ -12,6 +12,7 @@ import org.apache.poi.ss.usermodel.Row;
 import org.apache.poi.xssf.usermodel.XSSFSheet;
 import org.apache.poi.xssf.usermodel.XSSFWorkbook;
 
+import Servicios.ClasificacionABC;
 import Servicios.Erratico;
 import Servicios.HorizontalProMovilPonderado;
 import Servicios.HorizontalProMovilSimple;
@@ -30,6 +31,7 @@ public class Controlador
 	private HorizontalProMovilSimple horiProMedioSimple;
 	private HorizontalProMovilPonderado horiProMedioPonderado;
 	private HorizontalSuavizadoSimple horiProMedioSuvizado;
+	private ClasificacionABC clasificacionABC; 
 
 	/**
 	 * Este metodo se encarga de leer los datos que vienen de un archivo de excel y se encarga de guardar la informacion en el hash de articulos
@@ -99,6 +101,12 @@ public class Controlador
 		
 	}
 	
+	/**
+	 * 
+	 * @param archivo
+	 * @throws FileNotFoundException
+	 * @throws IOException
+	 */
 	public void cargarArchivoClasificacion(File archivo) throws FileNotFoundException, IOException
 	{
 		XSSFWorkbook libroExcel = new XSSFWorkbook(new FileInputStream(archivo)); //crear un libro excel
@@ -146,6 +154,21 @@ public class Controlador
 		}
 	}
 	
+	
+	public void iniciarClasificacionABC() {
+		
+		
+	}
+	
+	
+	public ClasificacionABC getClasificacionABC() {
+		return clasificacionABC;
+	}
+
+	public void setClasificacionABC(ClasificacionABC clasificacionABC) {
+		this.clasificacionABC = clasificacionABC;
+	}
+
 	public void cargarArchivoLeadTime(File archivo)
 	{
 		

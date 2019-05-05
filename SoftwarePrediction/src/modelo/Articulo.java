@@ -6,10 +6,16 @@ import Servicios.ControladorServicios;
 
 public class Articulo 
 {
+	
+	public static String A="A";
+	public static String B="B";
+	public static String C="C";
+	
 	private String nombreArticulo;
 	private ArrayList<Double> demandaArticulo;
 	private ControladorServicios servicios;
 	private double volumenAnual;
+	private String clase;
 	
 	public Articulo(String nombre, ArrayList<Double> demanda ) 
 	{
