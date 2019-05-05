@@ -27,7 +27,7 @@ public class ControladorServicios
 		horProMovilSimple = new HorizontalProMovilSimple(demanda, numero);
 		horSuaziSimple = new HorizontalSuavizadoSimple(demanda, alfaSimple);
 		suaviExpoDoble = new SuavizacionExponencialDoble(demanda, perSuavizacionDoble, alfaDoble, betaDoble);
-		proyeTende = new TendenciaPoryeccion(demanda);
+		proyeTende = new TendenciaPoryeccion(demanda,perSuavizacionDoble);
 	}
 
 	public Erratico getErratico() {

@@ -78,7 +78,7 @@ public class AskForDataWindowPrediction extends JFrame implements ActionListener
 		txtSuavizacionDobleAlfa = new JTextField();
 		txtSuavizacionDobleAlfa.setBounds(400, 70, 60, 20);
 		
-		lbSuavizacionDobleBeta = new JLabel("Introduzca Beta para método de suavización exp. doble:");
+		lbSuavizacionDobleBeta = new JLabel("Introduzca Beta para método de suavización exp. simple y doble:");
 		lbSuavizacionDobleBeta.setBounds(10, 100, 370, 20);
 		txtSuavizacionDobleBeta = new JTextField();
 		txtSuavizacionDobleBeta.setBounds(400, 100, 60, 20);

@@ -2,19 +2,27 @@ package Servicios;
 
 public class TendenciaPoryeccion implements IPronostico{
 
-	private double[] periodos;
-
+	private double[] demanda;
+	private int numeroPeriodos;
 
 	private double pendiente;
+	private double intersection;
 	private double pronostico;
 	private double mad;
 	private double mse;
 	private double mape;
+	private double[] errorABS;
+	private double[] pronosticos;
 
-
-	public TendenciaPoryeccion(double[] values) 
+	public TendenciaPoryeccion(double[] values, int numPer) 
 	{
-		periodos=values;
+		demanda=values;
+		numeroPeriodos=numPer;
+		pronosticos = new double[demanda.length+1];
+		errorABS = new double[demanda.length];
+		
+		
+		calcularPendienteInterseccion();
 		
 		mad = calcularMAD();
 		mse = calcularMSE();
@@ -22,6 +30,32 @@ public class TendenciaPoryeccion implements IPronostico{
 		pronostico = calcularPronostico();
 	}
 
+	
+	
+	private void calcularPendienteInterseccion() {
+		
+		double pendienteNumerador = 0;
+		double pendienteDenominador = 0;
+		
+		//periodos antes de inicializas st y tt
+		double a[] = new double[numeroPeriodos];
+		for (int i = 0; i < a.length; i++) {
+			a[i]=demanda[i];
+		
+		}
+		
+		for (int i = 0; i < numeroPeriodos; i++) {
+
+			pendienteNumerador +=(((i+1)-promedioPeriodos(numeroPeriodos))*(a[i]-promedio(a)));
+			pendienteDenominador+=(Math.pow(((i+1)-promedioPeriodos(a.length)), 2));
+
+		}
+		
+		pendiente = pendienteNumerador/pendienteDenominador;
+		intersection= promedio(a) -(pendiente*promedioPeriodos(a.length));
+		
+	}
+	
 	public double promedioPeriodos(double tamanio) {
 		double n = 0;
 
@@ -36,43 +70,60 @@ public class TendenciaPoryeccion implements IPronostico{
 	@Override
 	public double calcularPronostico() {
 		
-		double pendienteNumerador = 0;
-		double pendienteDenominador = 0;
-		for (int i = 0; i < periodos.length; i++) {
-
-			pendienteNumerador +=(((i+1)-promedioPeriodos(periodos.length))*(periodos[i]-promedio(periodos)));
-			pendienteDenominador+=(Math.pow(((i+1)-promedioPeriodos(periodos.length)), 2));
-
+		for (int i = 0; i < pronosticos.length	; i++) {
+			if(i>=numeroPeriodos) {
+			pronosticos[i]= ((i+1)*pendiente)+intersection;
+			if(i<errorABS.length) {
+			errorABS[i]= Math.abs(demanda[i]-pronosticos[i]);}
+			}else {
+				pronosticos[i]=0;
+				errorABS[i]=0;
+			}
 		}
-		
-		double pendiente = pendienteNumerador/pendienteDenominador;
-		this.pendiente=pendiente;
-		
-		double intersection= promedio(periodos) -(pendiente*promedioPeriodos(periodos.length));
-		
-		System.out.println("inter:  "+ intersection);
-
-		
-		double pronostico = (pendiente*(periodos.length+1))+intersection; 
-		return pronostico;
+	
+	
+		return pronosticos[pronosticos.length-1];
 	}
 
 	@Override
 	public double calcularMAD() {
-		// TODO Auto-generated method stub
-		return 0;
+		double valorMAD = 0;
+		int c=0;
+		for(int i = 0; i < errorABS.length;i++)
+		{
+			if(errorABS[i]!=0) {
+				valorMAD += errorABS[i];
+				c++;
+			}
+		}
+		return Math.ceil(valorMAD/c);
 	}
 
 	@Override
 	public double calcularMSE() {
-		// TODO Auto-generated method stub
-		return 0;
+		double count=0;
+		double cuadrados=0;
+		
+		for (int i = 0; i < errorABS.length; i++) {
+		
+			
+			if(errorABS[i]!=0) {
+				cuadrados += Math.pow(errorABS[i], 2);
+				count++;
+			}
+		}
+		return Math.ceil(cuadrados/count);
 	}
 
 	@Override
 	public double calcularMAPE() {
-		// TODO Auto-generated method stub
-		return 0;
+		double count =0;
+		for (int i = numeroPeriodos; i < errorABS.length; i++) {
+			count+=demanda[i]/errorABS[i];
+		}
+		
+		
+		return Math.ceil(count/errorABS.length-numeroPeriodos);
 	}
 
 	@Override
