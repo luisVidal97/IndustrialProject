@@ -18,12 +18,13 @@ public class Articulo
 	private String clase;
 	
 	public Articulo(String nombre, ArrayList<Double> demanda ) 
-	{
+	{   clase="";
 		nombreArticulo = nombre;
 		demandaArticulo = demanda;
 		volumenAnual = 0;
 	}
 	
+
 	public void realizarPronosticos(int periodo, double[] porcent, double alfa, double beta)
 	{
 		double[] demanda = new double[demandaArticulo.size()];
@@ -34,6 +35,14 @@ public class Articulo
 		servicios = new ControladorServicios(demanda, periodo, porcent, alfa,beta);
 	}
 
+	public String getClase() {
+		return clase;
+	}
+
+	public void setClase(String clase) {
+		this.clase = clase;
+	}
+	
 	public String getNombreArticulo() {
 		return nombreArticulo;
 	}
