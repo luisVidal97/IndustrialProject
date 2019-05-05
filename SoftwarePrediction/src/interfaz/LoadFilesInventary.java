@@ -21,9 +21,11 @@ public class LoadFilesInventary extends JFrame implements ActionListener
 	private JLabel lbLeadTime;
 
 	private JButton btnLeadTime;
-
+	
+	private ClassificationABCWindowInventary wdClasificacion;
+	
 	private MainWindow principal;
-
+	
 	public LoadFilesInventary(MainWindow mainWind) {
 
 		principal = mainWind;
@@ -80,8 +82,11 @@ public class LoadFilesInventary extends JFrame implements ActionListener
 			    File fichero=fc.getSelectedFile();
 			    try {
 			    	principal.cargarArchivoClasificacion(fichero);
-					JOptionPane.showMessageDialog(null, "¡El archivo se ha cargado correctamente!",
-							"Archivo cargado", JOptionPane.INFORMATION_MESSAGE);
+//					JOptionPane.showMessageDialog(null, "¡El archivo se ha cargado correctamente!",
+//							"Archivo cargado", JOptionPane.INFORMATION_MESSAGE);
+//					
+					wdClasificacion = new ClassificationABCWindowInventary(principal.getControlador().getClasificacionABC());
+					wdClasificacion.setVisible(true);
 					
 				} catch (Exception e1) {
 					JOptionPane.showMessageDialog(null, "Archivo con formato incorrecto. Cagar de nuevo el archivo",

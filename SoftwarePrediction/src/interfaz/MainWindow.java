@@ -177,7 +177,6 @@ public class MainWindow extends JFrame implements ActionListener
 		
 		String[] dataColumns =  new String[articulos.size()+1];
 		
-		
 		dataColumns[0]="Periodos/Referencias";
 		int i =1;
 		Articulo a = null;
@@ -261,11 +260,11 @@ public class MainWindow extends JFrame implements ActionListener
 					"Archivo cargado", JOptionPane.INFORMATION_MESSAGE);
 			
 			List<Articulo> ada = new ArrayList<Articulo>(controlador.getArticulos().values());
-			for(int i = 0; i < ada.size(); i++)
-			{
-				System.out.println(ada.get(i).getNombreArticulo() + " " + 
-				ada.get(i).getVolumenAnual());
-			}
+//			for(int i = 0; i < ada.size(); i++)
+//			{
+//				System.out.println(ada.get(i).getNombreArticulo() + " " + 
+//				ada.get(i).getVolumenAnual());
+//			}
 		} 
 		catch (Exception e1) {
 			JOptionPane.showMessageDialog(null, "Archivo con formato incorrecto. Cagar de nuevo el archivo",
@@ -279,4 +278,20 @@ public class MainWindow extends JFrame implements ActionListener
 		controlador.cargarArchivoLeadTime(archivo);
 	}
 
+
+
+
+	public Controlador getControlador() {
+		return controlador;
+	}
+
+
+
+
+	public void setControlador(Controlador controlador) {
+		this.controlador = controlador;
+	}
+
+	
+	
 }

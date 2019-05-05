@@ -115,6 +115,8 @@ public class Controlador
 		int contadorFilas = 2; // Este contador me sirve para manejar las filas
 		Row filaNombreProducto = hojaActual.getRow(contadorFilas); //acceder a la  fila donde se encuentran los productos
 		
+		ArrayList<String> referencias= new ArrayList<String>();
+		
 		while(primerSalida && filaNombreProducto!=null)
 		{
 			filaNombreProducto = hojaActual.getRow(contadorFilas);
@@ -127,8 +129,8 @@ public class Controlador
 					Cell celdaActualValorAnual = filaNombreProducto.getCell(1); //Aqui cojo cada uno de los nombres de los articulos
 					double valorAnual = celdaActualValorAnual.getNumericCellValue();
 					
-					
 					Articulo articuloNuevo = new Articulo(nombreArticulo, null);
+					referencias.add(nombreArticulo);
 					
 					if(articulos.get(nombreArticulo) != null)
 					{
@@ -138,8 +140,10 @@ public class Controlador
 					{
 						articulos.put(nombreArticulo, articuloNuevo);
 						articulos.get(nombreArticulo).setVolumenAnual(valorAnual);
+						
 					}
 					contadorFilas++; //Aumento esto para pasar al siguiente articulo
+				
 				}
 				else
 				{
@@ -153,13 +157,15 @@ public class Controlador
 			
 		}
 		
-		iniciarClasificacionABC();
+		iniciarClasificacionABC(referencias);
 	}
 	
 	
-	public void iniciarClasificacionABC() {
-		clasificacionABC = new ClasificacionABC(articulos);
+	public void iniciarClasificacionABC(ArrayList<String> referencias) {
 		
+		
+		clasificacionABC = new ClasificacionABC(articulos,referencias);
+
 	}
 	
 	
