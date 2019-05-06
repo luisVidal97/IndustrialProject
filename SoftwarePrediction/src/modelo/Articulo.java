@@ -48,6 +48,40 @@ public class Articulo
 		inventarioSeguridad = 0;
 	}
 	
+	public void calcularCantidadPedir(double r,double z) {
+		
+		
+		double desviacion = 0;
+		
+		for (int i = 0; i < demandaArticulo.size(); i++) {
+			desviacion+= Math.pow( demandaArticulo.get(i).doubleValue()-promedioDemanda(), 2);
+		}
+		
+		desviacion=Math.sqrt(desviacion/(demandaArticulo.size()-1));
+		
+		cantidadPedir = (promedioDemanda()*(leadTime+r))+z*(Math.sqrt((leadTime+r)*desviacion*desviacion))-inventarioActual;
+		inventarioSeguridad = z*Math.sqrt((leadTime+r)*desviacion*desviacion);
+		double max =0;
+		for (int i = 0; i < demandaArticulo.size(); i++) {
+			if(max<demandaArticulo.get(i).doubleValue()) {
+				max=demandaArticulo.get(i).doubleValue();
+			}
+		}
+		
+		inventarioMaximo = inventarioSeguridad+ leadTime*max; 
+		
+	}
+	
+	
+	public double promedioDemanda() {
+		double p =0;
+		for (int i = 0; i < demandaArticulo.size(); i++) {
+			p+=demandaArticulo.get(i).doubleValue();
+		}
+		return p/demandaArticulo.size();
+		
+	}
+	
 	/**
 	 * 
 	 * @param periodo

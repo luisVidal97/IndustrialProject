@@ -120,8 +120,8 @@ public class LoadFilesInventary extends JFrame implements ActionListener
 			    File fichero=fc.getSelectedFile();
 			    try {
 			    	principal.cargarArchivoLeadTime(fichero);
-					JOptionPane.showMessageDialog(null, "¡El archivo se ha cargado correctamente!",
-							"Archivo cargado", JOptionPane.INFORMATION_MESSAGE);
+//					JOptionPane.showMessageDialog(null, "¡El archivo se ha cargado correctamente!",
+//							"Archivo cargado", JOptionPane.INFORMATION_MESSAGE);
 					wdLeadTime = new LeadTimeWindowInventary(this, listaArticulos);
 					wdLeadTime.setVisible(true);
 					

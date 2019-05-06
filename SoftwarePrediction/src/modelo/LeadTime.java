@@ -4,6 +4,10 @@ import java.util.ArrayList;
 
 public class LeadTime 
 {
+	
+	private double leadTime;
+	private double desviacionEstandar;
+	
 	private double R;
 	private double tiempoTransito;
 	private double nacionalizaciónIngreso;
@@ -31,6 +35,16 @@ public class LeadTime
 	private double[] probaOcurre;
 	private double[] cuadrados;
 	
+	/**
+	 * 
+	 * @param r
+	 * @param tiempoTransito
+	 * @param nacionalizaciónIngreso
+	 * @param nivelServicio
+	 * @param z
+	 * @param articulos
+	 * @param listaDemoras
+	 */
 	public LeadTime(double r, double tiempoTransito, double nacionalizaciónIngreso, double nivelServicio, double z,ArrayList<Articulo> articulos, double[] listaDemoras) {
 		super();
 		R = r;
@@ -50,9 +64,43 @@ public class LeadTime
 		
 		llenarPrimerCuadro();
 		
+		calcularLeadDesvia();
 		
 	}
 	
+	private void calcularLeadDesvia() {
+		
+		double l = 0;
+		
+		for (int i = 0; i < marcaClase.length; i++) {
+			l+= marcaClase[i]*probaOcurre[i];
+		}
+		
+		leadTime = Math.ceil(l)/30;
+		
+		System.out.println(" este fue el limet tiem inicial local : " +leadTime);
+		
+		double v =0;
+		for (int i = 0; i < probaOcurre.length; i++) {
+			v+=probaOcurre[i]*cuadrados[i];
+		}
+		
+		double varianza=(v-leadTime*leadTime)/30;
+
+		desviacionEstandar=Math.sqrt(varianza);
+		leadTime = leadTime+tiempoTransito+nacionalizaciónIngreso;
+		
+		for (int i = 0; i < articulos.size(); i++) {
+			articulos.get(i).setLeadTime(leadTime);
+			articulos.get(i).setDesviacionLeadTime(desviacionEstandar);
+			articulos.get(i).calcularCantidadPedir(R, Z);
+		}
+		
+	}
+
+	/**
+	 * 
+	 */
 	private void llenarPrimerCuadro() 
 	{
 		for(int i = 0; i < listaDemoras.length; i++)
@@ -82,6 +130,9 @@ public class LeadTime
 		
 	}
 
+	/**
+	 * 
+	 */
 	private void llenarSegundoCuadro() 
 	{
 		limiteInferior = new double[(int) numeroIntervalos];
@@ -117,6 +168,13 @@ public class LeadTime
 		
 	}
 
+	/**
+	 * 
+	 * @param inferior
+	 * @param superior
+	 * @param indic
+	 * @return
+	 */
 	private double calcularOcurrencias(double inferior, double superior, int indic) 
 	{
 		double ocurren = 0;
