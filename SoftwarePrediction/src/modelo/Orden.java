@@ -13,13 +13,15 @@ public class Orden {
 	
 	private double cantidadDespachada;
 	
+	private double cantidadAcumulada;
 	
-	public Orden(String numerOrden, Date fechaOrden, double numeroDespacho,double cantidadDespachada) {
+	public Orden(String numerOrden, Date fechaOrden, double numeroDespacho,double cantidadDespachada, double cantidadAcumula) {
 		
 		this.numerOrden = numerOrden;
 		this.fechaOrden = fechaOrden;
 		this.numeroDespacho = numeroDespacho;
 		this.cantidadDespachada = cantidadDespachada;
+		this.cantidadAcumulada = cantidadAcumula;
 		
 	
 	}
@@ -61,6 +63,26 @@ public class Orden {
 
 
 	public void setCantidadDespachada(int cantidadDespachada) {
+		this.cantidadDespachada = cantidadDespachada;
+	}
+
+
+	public double getCantidadAcumulada() {
+		return cantidadAcumulada;
+	}
+
+
+	public void setCantidadAcumulada(double cantidadAcumulada) {
+		this.cantidadAcumulada = cantidadAcumulada;
+	}
+
+
+	public void setNumeroDespacho(double numeroDespacho) {
+		this.numeroDespacho = numeroDespacho;
+	}
+
+
+	public void setCantidadDespachada(double cantidadDespachada) {
 		this.cantidadDespachada = cantidadDespachada;
 	}
 	

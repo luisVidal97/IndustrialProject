@@ -159,8 +159,8 @@ public class MainWindow extends JFrame implements ActionListener
 			
 		}else if(e.getActionCommand().equals(BTN_INVENTARY)) {
 			
-			
-			wdCargarInventario = new  LoadFilesInventary(this);
+			ArrayList<Articulo> listica = new ArrayList<Articulo>(controlador.getArticulos().values());
+			wdCargarInventario = new  LoadFilesInventary(listica, this);
 			wdCargarInventario.setVisible(true);
 		}
 		
@@ -278,7 +278,7 @@ public class MainWindow extends JFrame implements ActionListener
 			controlador.cargarArchivoLeadTime(archivo);
 			JOptionPane.showMessageDialog(null, "¡El archivo se ha cargado correctamente!",
 					"Archivo cargado", JOptionPane.INFORMATION_MESSAGE);
-		} catch (IOException e) {
+		} catch (Exception e) {
 			JOptionPane.showMessageDialog(null, "Archivo con formato incorrecto. Cagar de nuevo el archivo",
 					"Error al cargar el archivo", JOptionPane.ERROR_MESSAGE);
 			e.printStackTrace();

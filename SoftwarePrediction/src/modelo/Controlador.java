@@ -4,6 +4,7 @@ import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.IOException;
+import java.text.ParseException;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashMap;
@@ -52,6 +53,14 @@ public class Controlador
 		
 		while(primerSalida && filaNombreProducto!=null)
 		{
+			double inventarioActual = 0;
+			Row filaInveActual = hojaActual.getRow(0);
+			Cell celdaInventarioActual = filaInveActual.getCell(contadorColumnas);
+			if(celdaInventarioActual != null)
+			{
+				inventarioActual = celdaInventarioActual.getNumericCellValue();
+			}
+					
 			Cell celdaActual = filaNombreProducto.getCell(contadorColumnas); //Aqui cojo cada uno de los nombres de los articulos
 			ArrayList<Double> demanda = new ArrayList<Double>();
 			if(celdaActual !=null)
@@ -82,8 +91,7 @@ public class Controlador
 						segundaSalida = false;
 					}
 				}
-				Articulo articuloNuevo = new Articulo(nombreArticulo, demanda);
-				
+				Articulo articuloNuevo = new Articulo(nombreArticulo, demanda, inventarioActual);
 				if(articulos.get(nombreArticulo) != null)
 				{
 					articulos.get(nombreArticulo).setDemandaArticulo(demanda);
@@ -130,7 +138,7 @@ public class Controlador
 					Cell celdaActualValorAnual = filaNombreProducto.getCell(1); //Aqui cojo cada uno de los nombres de los articulos
 					double valorAnual = celdaActualValorAnual.getNumericCellValue();
 					
-					Articulo articuloNuevo = new Articulo(nombreArticulo, null);
+					Articulo articuloNuevo = new Articulo(nombreArticulo, null, 0);
 					referencias.add(nombreArticulo);
 					
 					if(articulos.get(nombreArticulo) != null)
@@ -178,11 +186,30 @@ public class Controlador
 		this.clasificacionABC = clasificacionABC;
 	}
 
-	public void cargarArchivoLeadTime(File archivo) throws FileNotFoundException, IOException
+	public void cargarArchivoLeadTime(File archivo) throws FileNotFoundException, IOException, ParseException
 	{
 		XSSFWorkbook libroExcel = new XSSFWorkbook(new FileInputStream(archivo)); //crear un libro excel
 		XSSFSheet hojaActual = libroExcel.getSheetAt(0); //acceder a la primera hoja
 		boolean primerSalida = true;
+		
+		Row filaDatosLeadTime = hojaActual.getRow(0);
+		
+		Cell celdaActualR = filaDatosLeadTime.getCell(1);
+		double valorR = celdaActualR.getNumericCellValue();
+		
+		Cell celdaActualTiempoTransito = filaDatosLeadTime.getCell(3);
+		double valorTiempoTransito  = celdaActualTiempoTransito.getNumericCellValue();
+		
+		Cell celdaActualNacioIngreso = filaDatosLeadTime.getCell(5);
+		double valorNacioIngreso = celdaActualNacioIngreso.getNumericCellValue();
+		
+		Cell celdaActualNivelServicio= filaDatosLeadTime.getCell(7);
+		double valorNivelServicio = celdaActualNivelServicio.getNumericCellValue();
+		
+		Cell celdaActualZ = filaDatosLeadTime.getCell(9);
+		double valorZ = celdaActualZ.getNumericCellValue();
+		
+		
 		int contadorFilas = 3; // Este contador me sirve para manejar las filas
 		Row filaNombreProducto = hojaActual.getRow(contadorFilas); //acceder a la  fila donde se encuentran los productos
 		while(primerSalida && filaNombreProducto!=null)
@@ -216,7 +243,10 @@ public class Controlador
 					Cell celdaCantidadDespachada = filaNombreProducto.getCell(7);
 					double cantidadDespachada = celdaCantidadDespachada.getNumericCellValue();
 					
-					Orden ordenNueva = new Orden(numeroOrder, fechaOrden, numeroDespacho, cantidadDespachada);
+					Cell celdaCantidadAcumulada = filaNombreProducto.getCell(8);
+					double cantidadAcumulada = celdaCantidadAcumulada.getNumericCellValue();
+					
+					Orden ordenNueva = new Orden(numeroOrder, fechaOrden, numeroDespacho, cantidadDespachada, cantidadAcumulada);
 					
 					if(solicitudes.get(numeroSoliticitud) == null)
 					{
@@ -240,6 +270,25 @@ public class Controlador
 			}
 			
 		}
+		inicializarProcesoLeadTime(valorR, valorTiempoTransito, valorNacioIngreso, valorNivelServicio, valorZ);
+		
+	}
+
+	private void inicializarProcesoLeadTime(double r, double tiempoTransito,double nacionalizaciónIngreso, double nivelServicio, double z) 
+	{
+		if(articulos.size() > 0)
+		{
+			ArrayList<Articulo> articus = new ArrayList<Articulo>(articulos.values());
+			ArrayList<SolicitudPedido> solisPedis = new ArrayList<SolicitudPedido>(solicitudes.values());
+			double[] listaDemoras = new double[solisPedis.size()];
+		
+			for(int i = 0; i < solisPedis.size(); i++)
+			{
+				listaDemoras[i] = solisPedis.get(i).getDiasDemora();
+			}
+			LeadTime leadTime = new LeadTime(r, tiempoTransito, nacionalizaciónIngreso, nivelServicio, z, articus, listaDemoras);
+		}
+		
 	}
 
 	public HashMap<String, Articulo> getArticulos() {

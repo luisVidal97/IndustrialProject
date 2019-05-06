@@ -23,11 +23,29 @@ public class Articulo
 	
 	private double inventarioActual;
 	
-	public Articulo(String nombre, ArrayList<Double> demanda ) 
+	// ATRIBUTOS PARA LEADTIME
+	
+	private double leadTime;
+	
+	private double desviacionLeadTime;
+	
+	private double cantidadPedir;
+	
+	private double inventarioMaximo;
+	
+	private double inventarioSeguridad;
+	
+	public Articulo(String nombre, ArrayList<Double> demanda, double invetaActual) 
 	{   clase="";
 		nombreArticulo = nombre;
 		demandaArticulo = demanda;
 		volumenAnual = 0;
+		inventarioActual = invetaActual;
+		leadTime = 0;
+		desviacionLeadTime = 0;
+		cantidadPedir = 0;
+		inventarioMaximo = 0;
+		inventarioSeguridad = 0;
 	}
 	
 	/**
@@ -96,6 +114,47 @@ public class Articulo
 	public void setInventarioActual(double inventarioActual) {
 		this.inventarioActual = inventarioActual;
 	}
+
+	public double getLeadTime() {
+		return leadTime;
+	}
+
+	public void setLeadTime(double leadTime) {
+		this.leadTime = leadTime;
+	}
+
+	public double getDesviacionLeadTime() {
+		return desviacionLeadTime;
+	}
+
+	public void setDesviacionLeadTime(double desviacionLeadTime) {
+		this.desviacionLeadTime = desviacionLeadTime;
+	}
+
+	public double getCantidadPedir() {
+		return cantidadPedir;
+	}
+
+	public void setCantidadPedir(double cantidadPedir) {
+		this.cantidadPedir = cantidadPedir;
+	}
+
+	public double getInventarioMaximo() {
+		return inventarioMaximo;
+	}
+
+	public void setInventarioMaximo(double inventarioMaximo) {
+		this.inventarioMaximo = inventarioMaximo;
+	}
+
+	public double getInventarioSeguridad() {
+		return inventarioSeguridad;
+	}
+
+	public void setInventarioSeguridad(double inventarioSeguridad) {
+		this.inventarioSeguridad = inventarioSeguridad;
+	}
+	
 	
 	
 

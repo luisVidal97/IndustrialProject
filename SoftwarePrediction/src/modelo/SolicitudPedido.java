@@ -1,8 +1,8 @@
 package modelo;
 
+import java.text.ParseException;
 import java.util.ArrayList;
 import java.util.Date;
-import java.util.HashMap;
 
 public class SolicitudPedido {
 
@@ -15,19 +15,27 @@ public class SolicitudPedido {
 	
 	private String numeroSolicitud;
 	
-	HashMap<String, Orden> ordenes = new HashMap<String, Orden>();
+	private ArrayList<Orden> ordenes = new ArrayList<Orden>();
 
+	private double diasDemora;
 	
-	public SolicitudPedido(double cantidadSolicitada, Date fechaSolicitud, String proveedor, String numeroSolicitud, Orden orden) {
+	public SolicitudPedido(double cantidadSolicitada, Date fechaSolicitud, String proveedor, String numeroSolicitud, Orden orden) throws ParseException {
 		super();
 		this.cantidadSolicitada = cantidadSolicitada;
 		this.fechaSolicitud = fechaSolicitud;
 		this.proveedor = proveedor;
 		this.numeroSolicitud = numeroSolicitud;
+		diasDemora = 0;
+		ordenes.add(orden);
 		
-		if(ordenes.get(orden.getNumerOrden()) == null)
-		{
-			ordenes.put(orden.getNumerOrden(), orden);
+		
+		if(orden.getCantidadAcumulada()/cantidadSolicitada >= 0.9)
+		{	
+			if(diasDemora == 0)
+			{
+				diasDemora =  ((orden.getFechaOrden().getTime() -fechaSolicitud.getTime())/86400000);
+			}
+			
 		}
 		
 	}
@@ -64,20 +72,37 @@ public class SolicitudPedido {
 		this.numeroSolicitud = numeroSolicitud;
 	}
 
-	public HashMap<String, Orden> getOrdenes() {
+	public ArrayList<Orden> getOrdenes() {
 		return ordenes;
 	}
 
-	public void setOrdenes(HashMap<String, Orden> ordenes) {
+	public void setOrdenes(ArrayList<Orden> ordenes) {
 		this.ordenes = ordenes;
 	}
 	
+	
+	public double getDiasDemora() {
+		return diasDemora;
+	}
+
+	public void setDiasDemora(double diasDemora) {
+		this.diasDemora = diasDemora;
+	}
+
 	public void agregarNuevaOrden(Orden nuevaOrden)
 	{
-		if(ordenes.get(nuevaOrden.getNumerOrden()) == null)
-		{
-			ordenes.put(nuevaOrden.getNumerOrden(), nuevaOrden);
-		}
+		
+			ordenes.add(nuevaOrden);
+			
+			if(nuevaOrden.getCantidadAcumulada()/cantidadSolicitada >= 0.9)
+			{
+				if(diasDemora == 0)
+				{
+					diasDemora =  ((nuevaOrden.getFechaOrden().getTime()-fechaSolicitud.getTime())/86400000);
+				}
+				
+			}
+		
 	}
 
 	

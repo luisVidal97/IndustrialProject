@@ -4,9 +4,13 @@ import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.io.File;
+import java.util.ArrayList;
+import java.util.List;
 
 import javax.swing.*;
 import javax.swing.filechooser.FileNameExtensionFilter;
+
+import modelo.Articulo;
 
 public class LoadFilesInventary extends JFrame implements ActionListener
 {
@@ -28,9 +32,12 @@ public class LoadFilesInventary extends JFrame implements ActionListener
 	
 	private LeadTimeWindowInventary wdLeadTime;
 	
-	public LoadFilesInventary(MainWindow mainWind) {
+	private ArrayList<Articulo> listaArticulos;
+	
+	public LoadFilesInventary(ArrayList<Articulo> articulos, MainWindow mainWind) {
 
 		principal = mainWind;
+		listaArticulos = articulos;
 		setTitle("Inventario");
 
 		//adapt Screen to resolution of computer
@@ -115,7 +122,7 @@ public class LoadFilesInventary extends JFrame implements ActionListener
 			    	principal.cargarArchivoLeadTime(fichero);
 					JOptionPane.showMessageDialog(null, "¡El archivo se ha cargado correctamente!",
 							"Archivo cargado", JOptionPane.INFORMATION_MESSAGE);
-					wdLeadTime = new LeadTimeWindowInventary();
+					wdLeadTime = new LeadTimeWindowInventary(this, listaArticulos);
 					wdLeadTime.setVisible(true);
 					
 					
@@ -130,6 +137,11 @@ public class LoadFilesInventary extends JFrame implements ActionListener
 		}
 
 
+	}
+	
+	public Articulo buscarArticulo(String nombre)
+	{
+		return principal.buscarArticulo(nombre);
 	}
 
 

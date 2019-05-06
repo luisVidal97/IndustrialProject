@@ -1,9 +1,14 @@
 package interfaz;
 
 import javax.swing.*;
+
+import modelo.Articulo;
+
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.util.ArrayList;
+import java.util.List;
 
 public class LeadTimeWindowInventary extends JFrame implements ActionListener{
 
@@ -14,6 +19,9 @@ public class LeadTimeWindowInventary extends JFrame implements ActionListener{
 	
 	private JButton btnIzquierda;
 	private JButton btnDerecha;
+	
+	private JLabel lbNombreArticulo;
+	private JTextField txtNombreArticulo;
 	
 	private JLabel lbLeadTime;
 	private JTextField txtLeadTime;
@@ -30,9 +38,17 @@ public class LeadTimeWindowInventary extends JFrame implements ActionListener{
 	private JLabel lbInventarioSeguridad;
 	private JTextField txtInventarioSeguridad;
 	
+	private ArrayList<Articulo> listaArticulos;
 	
-	public LeadTimeWindowInventary() {
-		
+	private int posicionActual;
+	
+	private LoadFilesInventary principal;
+	
+	public LeadTimeWindowInventary(LoadFilesInventary prin, ArrayList<Articulo> articulos) 
+	{
+		listaArticulos = articulos;
+		principal = prin;
+		posicionActual = 0;
 		//adapt Screen to resolution of computer
 		 int width = 450;
 		 int height = 300;
@@ -43,7 +59,15 @@ public class LeadTimeWindowInventary extends JFrame implements ActionListener{
 		 setLayout(new BorderLayout());
 		 
 		 JPanel aux = new JPanel();
-		 aux.setLayout(null);
+		 aux.setLayout(new GridLayout(6,2));
+		 
+		 
+		 lbNombreArticulo = new JLabel("Articulo: ");
+		 lbNombreArticulo.setBounds(10,30,200,20);
+		  
+		 txtNombreArticulo = new JTextField();
+		 txtNombreArticulo.setBounds(240, 30, 60, 20);
+		 txtNombreArticulo.setEditable(false);
 		 
 		 lbLeadTime = new JLabel("Lead Time: ");
 		 lbLeadTime.setBounds(10,30,200,20);
@@ -80,6 +104,8 @@ public class LeadTimeWindowInventary extends JFrame implements ActionListener{
 		 txtInventarioSeguridad.setBounds(240, 190, 60, 20);
 		 txtInventarioSeguridad.setEditable(false);
 		 
+		 aux.add(lbNombreArticulo);
+		 aux.add(txtNombreArticulo);
 		 aux.add(lbLeadTime);
 		 aux.add(txtLeadTime);
 		 aux.add(lbDesviacion);
@@ -104,12 +130,71 @@ public class LeadTimeWindowInventary extends JFrame implements ActionListener{
 		 add(aux, BorderLayout.CENTER);
 		 add(btnIzquierda, BorderLayout.WEST);
 		 add(btnDerecha, BorderLayout.EAST);
+		 
+		 JComboBox<String> combo = new JComboBox<String>();
+			for (int i = 0; i < listaArticulos.size(); i++)
+			{
+				combo.addItem(listaArticulos.get(i).getNombreArticulo());
+				combo.addActionListener(new ActionListener() {
+					
+					@Override
+					public void actionPerformed(ActionEvent arg0) 
+					{
+						Articulo seleccionado = principal.buscarArticulo(combo.getSelectedItem().toString());
+						mostrarDatosArticulos(seleccionado);
+						
+					}
+				});
+			}
+		 
+			add(combo, BorderLayout.NORTH);
+
+		 mostrarDatosArticulos(listaArticulos.get(0));
+	}
+
+
+	private void mostrarDatosArticulos(Articulo articulo)
+	{
+		txtNombreArticulo.setText(articulo.getNombreArticulo());
+		txtLeadTime.setText(articulo.getLeadTime() + "");
+		txtDesviacion.setText(articulo.getDesviacionLeadTime() + "");
+		txtCantidadPedir.setText(articulo.getCantidadPedir() + "");
+		txtInventarioMax.setText(articulo.getInventarioMaximo() + "");
+		txtInventarioSeguridad.setText(articulo.getInventarioSeguridad() + "");
+		repaint();	
+		
 	}
 
 
 	@Override
-	public void actionPerformed(ActionEvent e) {
-		
+	public void actionPerformed(ActionEvent e) 
+	{
+		if(e.getActionCommand().equals(BTN_DER))
+		{
+			if(posicionActual == listaArticulos.size()-1)
+			{
+				posicionActual = 0;
+				mostrarDatosArticulos(listaArticulos.get(posicionActual));
+			}
+			else
+			{
+				posicionActual++;
+				mostrarDatosArticulos(listaArticulos.get(posicionActual));
+			}
+		}
+		else if(e.getActionCommand().equals(BTN_IZQ))
+		{
+			if(posicionActual == 0)
+			{
+				posicionActual = listaArticulos.size()-1;
+				mostrarDatosArticulos(listaArticulos.get(posicionActual));
+			}
+			else
+			{
+				posicionActual--;
+				mostrarDatosArticulos(listaArticulos.get(posicionActual));
+			}
+		}
 		
 	}
 	
