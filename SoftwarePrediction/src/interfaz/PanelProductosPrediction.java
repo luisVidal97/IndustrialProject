@@ -53,7 +53,7 @@ public class PanelProductosPrediction extends JFrame implements ActionListener
 		 setLocationRelativeTo(null);
 		
 		
-		this.setTitle("Products");
+		this.setTitle("Referencias");
 		ventanaPrincipal = principal;
 		listaArticulos = articulos;
 		posicionActual = 0;
@@ -176,6 +176,13 @@ public class PanelProductosPrediction extends JFrame implements ActionListener
 	private void mostrarDatosArticulos(Articulo articulo) 
 	{
 		nombreArticulo.setText(articulo.getNombreArticulo());
+		erratico.setText("");
+		horProMovPonde.setText("");
+		horProMovSimple.setText("");
+		horSuaSimple.setText("");
+		suaExpSimple.setText("");
+		proyTende.setText("");
+		
 		nombreArticulo.setFont( nombreArticulo.getFont().deriveFont( 20f )); 
 		erratico.setForeground(Color.BLACK);
 		horProMovPonde.setForeground(Color.BLACK);
@@ -186,104 +193,113 @@ public class PanelProductosPrediction extends JFrame implements ActionListener
 		double valorMenor = 0;
 		int indicadorMe = 0;
 		
-		erratico.setText("           Metodo Erratico" + "\n" + 
+		if(articulo.getServicios() != null && articulo.getServicios().getErratico() != null)
+		{
+				erratico.setText("           Metodo Erratico" + "\n" + 
 						"Valor del pronostico: " + articulo.getServicios().getErratico().getPronostico()  +"\n" +
 						"Valor MAD: " + articulo.getServicios().getErratico().getMad()+"\n" +
 						"Valor MSE: " + articulo.getServicios().getErratico().getMse() + "\n" + 
 						"Valor MAPE: " + articulo.getServicios().getErratico().getMape()+ "\n");
 		
-		valorMenor = articulo.getServicios().getErratico().getMse();
-		indicadorMe = 1;
-	
-		horProMovPonde.setText("           Metodo Horizontal promedio movil ponderado" + "\n" + 
-						"Valor del pronostico: " +  articulo.getServicios().getHorProMovilPonde().getPronostico() + "\n" +
-						"Valor MAD: " +  articulo.getServicios().getHorProMovilPonde().getMad() + "\n" +
-						"Valor MSE: " + articulo.getServicios().getHorProMovilPonde().getMse() + "\n" + 
-						"Valor MAPE: "+ articulo.getServicios().getHorProMovilPonde().getMape()+ "\n");
+				valorMenor = articulo.getServicios().getErratico().getMse();
+			indicadorMe = 1;
 		
-		if(articulo.getServicios().getHorProMovilPonde().getMse() < valorMenor)
-		{
-			valorMenor = articulo.getServicios().getHorProMovilPonde().getMse();
-			indicadorMe = 2;
-		}
-		
-		horProMovSimple.setText("            Metodo Horizontal promedio movil simple" + "\n" + 
-						"Valor del pronostico: " +  articulo.getServicios().getHorProMovilSimple().getPronostico() + "\n" +
-						"Valor MAD: " + articulo.getServicios().getHorProMovilSimple().getMad() +"\n" +
-						"Valor MSE: " + articulo.getServicios().getHorProMovilSimple().getMse() +"\n" + 
-						"Valor MAPE: " + articulo.getServicios().getHorProMovilSimple().getMape() + "\n");
-		
-		if( articulo.getServicios().getHorProMovilSimple().getMse()< valorMenor)
-		{
-			valorMenor =  articulo.getServicios().getHorProMovilSimple().getMse();
-			indicadorMe = 3;
-		}
-	
-		horSuaSimple.setText("           Metodo suavizado simple" + "\n" + 
-						"Valor del pronostico: " +  articulo.getServicios().getHorSuaziSimple().getPronostico() + "\n" +
-						"Valor MAD: " + articulo.getServicios().getHorSuaziSimple().getMad() + "\n" +
-						"Valor MSE: " + articulo.getServicios().getHorSuaziSimple().getMse()+ "\n" + 
-						"Valor MAPE: "+ articulo.getServicios().getHorSuaziSimple().getMape() +  "\n");
-		
-		if(articulo.getServicios().getHorSuaziSimple().getMse() < valorMenor)
-		{
-			valorMenor =articulo.getServicios().getHorSuaziSimple().getMse();
-			indicadorMe = 4;
+			horProMovPonde.setText("           Metodo Horizontal promedio movil ponderado" + "\n" + 
+							"Valor del pronostico: " +  articulo.getServicios().getHorProMovilPonde().getPronostico() + "\n" +
+							"Valor MAD: " +  articulo.getServicios().getHorProMovilPonde().getMad() + "\n" +
+							"Valor MSE: " + articulo.getServicios().getHorProMovilPonde().getMse() + "\n" + 
+							"Valor MAPE: "+ articulo.getServicios().getHorProMovilPonde().getMape()+ "\n");
 			
-		}
-	
-		suaExpSimple.setText("           Metodo suavizado exponencial doble" + "\n" + 
-						"Valor del pronostico: " + articulo.getServicios().getSuaviExpoDoble().getPronostico() +  "\n" +
-						"Valor MAD: " + articulo.getServicios().getSuaviExpoDoble().getMad()+ "\n" +
-						"Valor MSE: " + articulo.getServicios().getSuaviExpoDoble().getMse()+ "\n" + 
-						"Valor MAPE: "+ articulo.getServicios().getSuaviExpoDoble().getMape() +  "\n");
+			if(articulo.getServicios().getHorProMovilPonde().getMse() < valorMenor)
+			{
+				valorMenor = articulo.getServicios().getHorProMovilPonde().getMse();
+				indicadorMe = 2;
+			}
+			
+			horProMovSimple.setText("            Metodo Horizontal promedio movil simple" + "\n" + 
+							"Valor del pronostico: " +  articulo.getServicios().getHorProMovilSimple().getPronostico() + "\n" +
+							"Valor MAD: " + articulo.getServicios().getHorProMovilSimple().getMad() +"\n" +
+							"Valor MSE: " + articulo.getServicios().getHorProMovilSimple().getMse() +"\n" + 
+							"Valor MAPE: " + articulo.getServicios().getHorProMovilSimple().getMape() + "\n");
+			
+			if( articulo.getServicios().getHorProMovilSimple().getMse()< valorMenor)
+			{
+				valorMenor =  articulo.getServicios().getHorProMovilSimple().getMse();
+				indicadorMe = 3;
+			}
 		
-		if(articulo.getServicios().getSuaviExpoDoble().getMse() < valorMenor)
-		{
-			valorMenor = articulo.getServicios().getSuaviExpoDoble().getMse();
-			indicadorMe = 5;
-		}
+			horSuaSimple.setText("           Metodo suavizado simple" + "\n" + 
+							"Valor del pronostico: " +  articulo.getServicios().getHorSuaziSimple().getPronostico() + "\n" +
+							"Valor MAD: " + articulo.getServicios().getHorSuaziSimple().getMad() + "\n" +
+							"Valor MSE: " + articulo.getServicios().getHorSuaziSimple().getMse()+ "\n" + 
+							"Valor MAPE: "+ articulo.getServicios().getHorSuaziSimple().getMape() +  "\n");
+			
+			if(articulo.getServicios().getHorSuaziSimple().getMse() < valorMenor)
+			{
+				valorMenor =articulo.getServicios().getHorSuaziSimple().getMse();
+				indicadorMe = 4;
+				
+			}
 		
-		proyTende.setText("           Metodo proyeccion de tendencia" + "\n" + 
-						"Valor del pronostico: " + articulo.getServicios().getProyeTende().getPronostico() +  "\n" +
-						"Valor MAD: " + articulo.getServicios().getProyeTende().getMad()  +"\n" +
-						"Valor MSE: " + articulo.getServicios().getProyeTende().getMse() + "\n" + 
-						"Valor MAPE: " + articulo.getServicios().getProyeTende().getMape() +  "\n");
+			suaExpSimple.setText("           Metodo suavizado exponencial doble" + "\n" + 
+							"Valor del pronostico: " + articulo.getServicios().getSuaviExpoDoble().getPronostico() +  "\n" +
+							"Valor MAD: " + articulo.getServicios().getSuaviExpoDoble().getMad()+ "\n" +
+							"Valor MSE: " + articulo.getServicios().getSuaviExpoDoble().getMse()+ "\n" + 
+							"Valor MAPE: "+ articulo.getServicios().getSuaviExpoDoble().getMape() +  "\n");
+			
+			if(articulo.getServicios().getSuaviExpoDoble().getMse() < valorMenor)
+			{
+				valorMenor = articulo.getServicios().getSuaviExpoDoble().getMse();
+				indicadorMe = 5;
+			}
+			
+			proyTende.setText("           Metodo proyeccion de tendencia" + "\n" + 
+							"Valor del pronostico: " + articulo.getServicios().getProyeTende().getPronostico() +  "\n" +
+							"Valor MAD: " + articulo.getServicios().getProyeTende().getMad()  +"\n" +
+							"Valor MSE: " + articulo.getServicios().getProyeTende().getMse() + "\n" + 
+							"Valor MAPE: " + articulo.getServicios().getProyeTende().getMape() +  "\n");
+			
+			if(articulo.getServicios().getProyeTende().getMse() < valorMenor)
+			{
+				valorMenor = articulo.getServicios().getProyeTende().getMse();
+				indicadorMe = 6;
+			}
+			
+			switch (indicadorMe)
+			{
+		        case 1:
+		        	erratico.setForeground(Color.RED);
+		        break;
 		
-		if(articulo.getServicios().getProyeTende().getMse() < valorMenor)
-		{
-			valorMenor = articulo.getServicios().getProyeTende().getMse();
-			indicadorMe = 6;
-		}
-		
-		switch (indicadorMe)
-		{
-	        case 1:
-	        	erratico.setForeground(Color.RED);
-	        break;
-	
-	        case 2:
-	        	horProMovPonde.setForeground(Color.RED);
-	        break;
-	        
-	        case 3:
-	        	horProMovSimple.setForeground(Color.RED);
+		        case 2:
+		        	horProMovPonde.setForeground(Color.RED);
 		        break;
 		        
-	        case 4:
-	        	horSuaSimple.setForeground(Color.RED);
-		        break;
-		        
-	        case 5:
-	        	suaExpSimple.setForeground(Color.RED);
-		        break;
-		        
-	        case 6:
-	        	proyTende.setForeground(Color.RED);
-		        break;
-        }
-		
-		repaint();	
+		        case 3:
+		        	horProMovSimple.setForeground(Color.RED);
+			        break;
+			        
+		        case 4:
+		        	horSuaSimple.setForeground(Color.RED);
+			        break;
+			        
+		        case 5:
+		        	suaExpSimple.setForeground(Color.RED);
+			        break;
+			        
+		        case 6:
+		        	proyTende.setForeground(Color.RED);
+			        break;
+		    }
+			
+			repaint();
+		}
+		else
+		{
+			erratico.setText("La referencia actualmente no tiene una demanda asociada");
+			repaint();
+		}
+					
 	}
 }
 

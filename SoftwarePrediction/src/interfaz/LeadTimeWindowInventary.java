@@ -62,7 +62,7 @@ public class LeadTimeWindowInventary extends JFrame implements ActionListener{
 		 aux.setLayout(new GridLayout(6,2));
 		 
 		 
-		 lbNombreArticulo = new JLabel("Articulo: ");
+		 lbNombreArticulo = new JLabel("Referencia: ");
 		 lbNombreArticulo.setBounds(10,30,200,20);
 		  
 		 txtNombreArticulo = new JTextField();

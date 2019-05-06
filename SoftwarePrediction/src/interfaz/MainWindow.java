@@ -82,15 +82,15 @@ public class MainWindow extends JFrame implements ActionListener
 		
 		setLayout(new BorderLayout());
 		
-		btnLoadPrediction = new JButton(BTN_LOADPRO);
+		btnLoadPrediction = new JButton("Cargar Archivo Demanda");
 		btnLoadPrediction.addActionListener(this);
 		btnLoadPrediction.setActionCommand(BTN_LOADPRO);
 		
-		btnGeneratePrediction = new JButton(BTN_GENERATE_PREDICTION);
+		btnGeneratePrediction = new JButton("Gestion de demanda");
 		btnGeneratePrediction.addActionListener(this);
 		btnGeneratePrediction.setActionCommand(BTN_GENERATE_PREDICTION);
 		
-		btnInventary = new JButton(BTN_INVENTARY);
+		btnInventary = new JButton("Gestion de Inventarios");
 		btnInventary.addActionListener(this);
 		btnInventary.setActionCommand(BTN_INVENTARY);;
 		
@@ -101,6 +101,9 @@ public class MainWindow extends JFrame implements ActionListener
 		
 		add(btnLoadPrediction, BorderLayout.SOUTH);
 		add(aux,BorderLayout.NORTH);
+		
+		btnInventary.setVisible(false);
+		btnGeneratePrediction.setVisible(false);
 		
 		setDefaultCloseOperation(EXIT_ON_CLOSE);
 	}
@@ -140,6 +143,10 @@ public class MainWindow extends JFrame implements ActionListener
 			    try {
 					controlador.cargarArchivoPronosticos(fichero);
 					fillTable(controlador.getArticulos());
+					btnInventary.setVisible(true);
+					btnGeneratePrediction.setVisible(true);
+					btnLoadPrediction.setVisible(false);
+					
 					JOptionPane.showMessageDialog(null, "¡El archivo se ha cargado correctamente!",
 							"Archivo cargado", JOptionPane.INFORMATION_MESSAGE);
 					

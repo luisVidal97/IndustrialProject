@@ -78,7 +78,7 @@ public class LeadTime
 		
 		leadTime = Math.ceil(l)/30;
 		
-		System.out.println(" este fue el limet tiem inicial local : " +leadTime);
+//		System.out.println(" este fue el limet tiem inicial local : " +leadTime);
 		
 		double v =0;
 		for (int i = 0; i < probaOcurre.length; i++) {
@@ -119,12 +119,12 @@ public class LeadTime
 		numeroIntervalos = Math.ceil(1+(3.3*(Math.log(numeroDemoras) / Math.log(10))));
 		ancho = Math.ceil(valorRango/numeroIntervalos);
 		
-		System.out.println("tamaño: " + listaDemoras.length);
-		System.out.println("min: " + valorMinimo);
-		System.out.println("max: " + valorMaximo);
-		System.out.println("rango: " + valorRango);
-		System.out.println("intervalor: " + numeroIntervalos);
-		System.out.println("ancho: " + ancho);
+//		System.out.println("tamaño: " + listaDemoras.length);
+//		System.out.println("min: " + valorMinimo);
+//		System.out.println("max: " + valorMaximo);
+//		System.out.println("rango: " + valorRango);
+//		System.out.println("intervalor: " + numeroIntervalos);
+//		System.out.println("ancho: " + ancho);
 		
 		llenarSegundoCuadro();
 		
@@ -163,7 +163,7 @@ public class LeadTime
 				cuadrados[i] = marcaClase[i] * marcaClase[i];
 			}
 			
-			System.out.println(limiteInferior[i] + "  " +  limiteSuperior[i] + "  " + marcaClase[i] + "  " + numeroOcurrencias[i] + "  " + probaOcurre[i] + "  " +  cuadrados[i]);
+//			System.out.println(limiteInferior[i] + "  " +  limiteSuperior[i] + "  " + marcaClase[i] + "  " + numeroOcurrencias[i] + "  " + probaOcurre[i] + "  " +  cuadrados[i]);
 		}
 		
 	}

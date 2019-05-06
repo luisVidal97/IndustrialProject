@@ -48,28 +48,29 @@ public class Articulo
 		inventarioSeguridad = 0;
 	}
 	
-	public void calcularCantidadPedir(double r,double z) {
-		
-		
-		double desviacion = 0;
-		
-		for (int i = 0; i < demandaArticulo.size(); i++) {
-			desviacion+= Math.pow( demandaArticulo.get(i).doubleValue()-promedioDemanda(), 2);
-		}
-		
-		desviacion=Math.sqrt(desviacion/(demandaArticulo.size()-1));
-		
-		cantidadPedir = (promedioDemanda()*(leadTime+r))+z*(Math.sqrt((leadTime+r)*desviacion*desviacion))-inventarioActual;
-		inventarioSeguridad = z*Math.sqrt((leadTime+r)*desviacion*desviacion);
-		double max =0;
-		for (int i = 0; i < demandaArticulo.size(); i++) {
-			if(max<demandaArticulo.get(i).doubleValue()) {
-				max=demandaArticulo.get(i).doubleValue();
+	public void calcularCantidadPedir(double r,double z) 
+	{
+		if(demandaArticulo != null)
+		{
+			double desviacion = 0;
+			
+			for (int i = 0; i < demandaArticulo.size(); i++) 
+			{
+				desviacion+= Math.pow( demandaArticulo.get(i).doubleValue()-promedioDemanda(), 2);
 			}
+			
+			desviacion=Math.sqrt(desviacion/(demandaArticulo.size()-1));
+			
+			cantidadPedir = (promedioDemanda()*(leadTime+r))+z*(Math.sqrt((leadTime+r)*desviacion*desviacion))-inventarioActual;
+			inventarioSeguridad = z*Math.sqrt((leadTime+r)*desviacion*desviacion);
+			double max =0;
+			for (int i = 0; i < demandaArticulo.size(); i++) {
+				if(max<demandaArticulo.get(i).doubleValue()) {
+					max=demandaArticulo.get(i).doubleValue();
+				}
+			}
+			inventarioMaximo = inventarioSeguridad+ leadTime*max; 
 		}
-		
-		inventarioMaximo = inventarioSeguridad+ leadTime*max; 
-		
 	}
 	
 	
@@ -93,12 +94,16 @@ public class Articulo
 	 */
 	public void realizarPronosticos(int periodo, double[] porcent, double alfaSimple, double alfaDoble, double betaDoble, int perSuavizacionDoble)
 	{
-		double[] demanda = new double[demandaArticulo.size()];
-		for(int i = 0; i < demandaArticulo.size(); i++)
+		if(demandaArticulo != null)
 		{
-			demanda[i] = demandaArticulo.get(i);
+			double[] demanda = new double[demandaArticulo.size()];
+			for(int i = 0; i < demandaArticulo.size(); i++)
+			{
+				demanda[i] = demandaArticulo.get(i);
+			}
+			servicios = new ControladorServicios(demanda, periodo, porcent, alfaSimple,alfaDoble,betaDoble,perSuavizacionDoble);
+		
 		}
-		servicios = new ControladorServicios(demanda, periodo, porcent, alfaSimple,alfaDoble,betaDoble,perSuavizacionDoble);
 	}
 
 	public String getClase() {
