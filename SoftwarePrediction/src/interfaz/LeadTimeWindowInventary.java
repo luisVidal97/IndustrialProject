@@ -46,6 +46,11 @@ public class LeadTimeWindowInventary extends JFrame implements ActionListener{
 	
 	public LeadTimeWindowInventary(LoadFilesInventary prin, ArrayList<Articulo> articulos) 
 	{
+		
+		ImageIcon ImageIcon = new ImageIcon("img/icono.png");
+		Image image = ImageIcon.getImage();
+		this.setIconImage(image);
+		
 		listaArticulos = articulos;
 		principal = prin;
 		posicionActual = 0;

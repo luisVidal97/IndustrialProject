@@ -3,6 +3,7 @@ package interfaz;
 import java.awt.BorderLayout;
 import java.awt.Dimension;
 import java.awt.GridLayout;
+import java.awt.Image;
 import java.awt.Toolkit;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -12,9 +13,12 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
+
+import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JFileChooser;
 import javax.swing.JFrame;
+import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
@@ -51,6 +55,8 @@ public class MainWindow extends JFrame implements ActionListener
 	
 	private JTable tbTableData;
 	
+	private JLabel lbImg;
+	
 	private AskForDataWindowPrediction wdAskData;
 	
 	private LoadFilesInventary wdCargarInventario;
@@ -65,8 +71,12 @@ public class MainWindow extends JFrame implements ActionListener
 	 */
 	public MainWindow() 
 	{
+		ImageIcon ImageIcon = new ImageIcon("img/icono.png");
+		Image image = ImageIcon.getImage();
+		this.setIconImage(image);
+		
 		controlador = new Controlador();
-		setTitle("Software Predcition");
+		setTitle("Software Prediction");
 		try{
 			UIManager.setLookAndFeel("com.sun.java.swing.plaf.windows.WindowsLookAndFeel");
 		}catch(Exception e) {
@@ -98,12 +108,18 @@ public class MainWindow extends JFrame implements ActionListener
 		aux.setLayout(new GridLayout(1,2));
 		aux.add(btnGeneratePrediction);
 		aux.add(btnInventary);
+
+		ImageIcon im = new ImageIcon("img/fanalca.png");
+		lbImg = new JLabel(im);
 		
 		add(btnLoadPrediction, BorderLayout.SOUTH);
 		add(aux,BorderLayout.NORTH);
+		add(lbImg,BorderLayout.CENTER);
 		
 		btnInventary.setVisible(false);
 		btnGeneratePrediction.setVisible(false);
+
+
 		
 		setDefaultCloseOperation(EXIT_ON_CLOSE);
 	}
@@ -147,8 +163,11 @@ public class MainWindow extends JFrame implements ActionListener
 					btnGeneratePrediction.setVisible(true);
 					btnLoadPrediction.setVisible(false);
 					
+					lbImg.setVisible(false);
+					
 					JOptionPane.showMessageDialog(null, "¡El archivo se ha cargado correctamente!",
 							"Archivo cargado", JOptionPane.INFORMATION_MESSAGE);
+					
 					
 				} catch (Exception e1) {
 					JOptionPane.showMessageDialog(null, "Archivo con formato incorrecto. Cagar de nuevo el archivo",
@@ -247,13 +266,13 @@ public class MainWindow extends JFrame implements ActionListener
 
 
 
-	public void realizarPronosticos(int periodo, double[] porcent, double alfaSimple, double alfaDoble, double betaDoble, int perSuavizacionDoble) 
+	public void realizarPronosticos(int perSimp, int perPon, double[] porcent, double alfaSimple, double alfaDoble, double betaDoble, int perSuavizacionDoble) 
 	{
 		List<Articulo> ada = new ArrayList<Articulo>(controlador.getArticulos().values());
 		
 		for(int i = 0; i < ada.size(); i++)
 		{
-			ada.get(i).realizarPronosticos(periodo, porcent, alfaSimple, alfaDoble,betaDoble,perSuavizacionDoble);
+			ada.get(i).realizarPronosticos(perSimp,perPon ,porcent, alfaSimple, alfaDoble,betaDoble,perSuavizacionDoble);
 		}
 		
 	}

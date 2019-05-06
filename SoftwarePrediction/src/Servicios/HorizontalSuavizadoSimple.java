@@ -79,7 +79,7 @@ public class HorizontalSuavizadoSimple implements IPronostico{
 			valorMAPE += errorRela;
 			errorRelativo[i] = errorRela;
 		}
-		return (valorMAPE/(periodos.length-1))*100;
+		return (valorMAPE/(periodos.length-1));
 	}
 	
 	

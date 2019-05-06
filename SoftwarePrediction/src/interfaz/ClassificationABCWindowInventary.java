@@ -15,6 +15,11 @@ public class ClassificationABCWindowInventary extends JFrame{
 	private ClasificacionABC clasificacion;
 	
 	public ClassificationABCWindowInventary(ClasificacionABC clasificacionABC) {
+		
+		ImageIcon ImageIcon = new ImageIcon("img/icono.png");
+		Image image = ImageIcon.getImage();
+		this.setIconImage(image);
+		
 		setTitle("Clasificación ABC");
 		clasificacion=clasificacionABC;
 		 //adapt Screen to resolution of computer

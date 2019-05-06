@@ -1,12 +1,15 @@
 package interfaz;
 
 import java.awt.BasicStroke;
+
 import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.Dimension;
+import java.awt.Image;
 import java.awt.Toolkit;
 import java.io.IOException;
 
+import javax.swing.ImageIcon;
 import javax.swing.JFrame;
 
 import org.jfree.chart.ChartFactory;
@@ -17,10 +20,14 @@ import org.jfree.data.xy.DefaultXYDataset;
 
 import modelo.Articulo;
 
-public class VentanGrafica extends JFrame {
+public class GraficaWindowPrediction extends JFrame {
 
-	public VentanGrafica(Articulo articuloActual) 
+	public GraficaWindowPrediction(Articulo articuloActual) 
 	{
+		ImageIcon ImageIcon = new ImageIcon("img/icono.png");
+		Image image = ImageIcon.getImage();
+		this.setIconImage(image);
+		
 		setTitle("Grafica para la referencia " + articuloActual.getNombreArticulo());
 		setLayout(new BorderLayout());
 		

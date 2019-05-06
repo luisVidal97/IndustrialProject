@@ -66,7 +66,7 @@ public class Erratico implements IPronostico{
 		}
 		
 		
-		return (promedio(errores)*100);
+		return (promedio(errores));
 	}	
 	
 	

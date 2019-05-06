@@ -100,7 +100,7 @@ public class HorizontalProMovilPonderado implements IPronostico{
 			valorMAPE += errorRela;
 			errorRelativo[i] = errorRela;
 		}
-		return (valorMAPE/(periodos.length-numeroPeriodo))*100;
+		return (valorMAPE/(periodos.length-numeroPeriodo));
 	}
 
 	@Override

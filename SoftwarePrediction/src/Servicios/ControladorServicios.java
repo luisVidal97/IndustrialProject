@@ -14,17 +14,18 @@ public class ControladorServicios
 	 * 
 	 * @param demanda
 	 * @param numero
+	 * @param perPon 
 	 * @param porcent
 	 * @param alfaSimple
 	 * @param alfaDoble
 	 * @param betaDoble
 	 * @param perSuavizacionDoble
 	 */
-	public ControladorServicios(double[] demanda, int numero, double[] porcent,double alfaSimple, double alfaDoble, double betaDoble, int perSuavizacionDoble)
+	public ControladorServicios(double[] demanda, int perSim, int perPon, double[] porcent,double alfaSimple, double alfaDoble, double betaDoble, int perSuavizacionDoble)
 	{
 		erratico = new Erratico(demanda);
-		horProMovilPonde = new HorizontalProMovilPonderado(demanda, numero, porcent);
-		horProMovilSimple = new HorizontalProMovilSimple(demanda, numero);
+		horProMovilPonde = new HorizontalProMovilPonderado(demanda, perPon, porcent);
+		horProMovilSimple = new HorizontalProMovilSimple(demanda, perSim);
 		horSuaziSimple = new HorizontalSuavizadoSimple(demanda, alfaSimple);
 		suaviExpoDoble = new SuavizacionExponencialDoble(demanda, perSuavizacionDoble, alfaDoble, betaDoble);
 		proyeTende = new TendenciaPoryeccion(demanda,perSuavizacionDoble);

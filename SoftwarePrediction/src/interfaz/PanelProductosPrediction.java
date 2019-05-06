@@ -4,11 +4,13 @@ import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.GridLayout;
+import java.awt.Image;
 import java.awt.Toolkit;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.List;
 
+import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JComboBox;
 import javax.swing.JFrame;
@@ -30,7 +32,7 @@ public class PanelProductosPrediction extends JFrame implements ActionListener
 	private JButton botonDerecha;
 	private JButton botonGrafica;
 	private int posicionActual;
-	private VentanGrafica ventanaGrafica;
+	private GraficaWindowPrediction ventanaGrafica;
 	
 	
 	private JPanel panelDatos;
@@ -48,6 +50,10 @@ public class PanelProductosPrediction extends JFrame implements ActionListener
 	
 	public PanelProductosPrediction(List<Articulo> articulos, MainWindow principal)
 	{
+	
+		ImageIcon ImageIcon = new ImageIcon("img/icono.png");
+		Image image = ImageIcon.getImage();
+		this.setIconImage(image);
 		
 		 //adapt Screen to resolution of computer
 		 Toolkit tk = Toolkit.getDefaultToolkit();
@@ -64,15 +70,15 @@ public class PanelProductosPrediction extends JFrame implements ActionListener
 		posicionActual = 0;
 		setLayout(new BorderLayout());
 		
-		botonIzquierda = new JButton("<");
+		botonIzquierda = new JButton("<<");
 		botonIzquierda.setActionCommand(BTN_IZQ);
 		botonIzquierda.addActionListener(this);
 		
-		botonDerecha = new JButton(">");
+		botonDerecha = new JButton(">>");
 		botonDerecha.setActionCommand(BTN_DER);
 		botonDerecha.addActionListener(this);
 		
-		botonGrafica  = new JButton("Mostrar Grafica");
+		botonGrafica  = new JButton("Mostrar Gráfica");
 		botonGrafica.setActionCommand(GRAFIC);
 		botonGrafica.addActionListener(this);
 		
@@ -182,7 +188,7 @@ public class PanelProductosPrediction extends JFrame implements ActionListener
 		}
 		else if(e.getActionCommand().equals(GRAFIC))
 		{
-			ventanaGrafica = new VentanGrafica(articuloActual);
+			ventanaGrafica = new GraficaWindowPrediction(articuloActual);
 			ventanaGrafica.setVisible(true);
 		}
 		
@@ -211,8 +217,8 @@ public class PanelProductosPrediction extends JFrame implements ActionListener
 		
 		if(articulo.getServicios() != null && articulo.getServicios().getErratico() != null)
 		{
-				erratico.setText("           Metodo Erratico" + "\n" + 
-						"Valor del pronostico: " + articulo.getServicios().getErratico().getPronostico()  +"\n" +
+				erratico.setText("           Método Errático" + "\n" + 
+						"Valor del pronóstico: " + articulo.getServicios().getErratico().getPronostico()  +"\n" +
 						"Valor MAD: " + articulo.getServicios().getErratico().getMad()+"\n" +
 						"Valor MSE: " + articulo.getServicios().getErratico().getMse() + "\n" + 
 						"Valor MAPE: " + articulo.getServicios().getErratico().getMape()+ "\n");
@@ -220,8 +226,8 @@ public class PanelProductosPrediction extends JFrame implements ActionListener
 				valorMenor = articulo.getServicios().getErratico().getMse();
 			indicadorMe = 1;
 		
-			horProMovPonde.setText("           Metodo Horizontal promedio movil ponderado" + "\n" + 
-							"Valor del pronostico: " +  articulo.getServicios().getHorProMovilPonde().getPronostico() + "\n" +
+			horProMovPonde.setText("           Método Horizontal promedio móvil ponderado" + "\n" + 
+							"Valor del pronóstico: " +  articulo.getServicios().getHorProMovilPonde().getPronostico() + "\n" +
 							"Valor MAD: " +  articulo.getServicios().getHorProMovilPonde().getMad() + "\n" +
 							"Valor MSE: " + articulo.getServicios().getHorProMovilPonde().getMse() + "\n" + 
 							"Valor MAPE: "+ articulo.getServicios().getHorProMovilPonde().getMape()+ "\n");
@@ -232,8 +238,8 @@ public class PanelProductosPrediction extends JFrame implements ActionListener
 				indicadorMe = 2;
 			}
 			
-			horProMovSimple.setText("            Metodo Horizontal promedio movil simple" + "\n" + 
-							"Valor del pronostico: " +  articulo.getServicios().getHorProMovilSimple().getPronostico() + "\n" +
+			horProMovSimple.setText("            Método Horizontal promedio móvil simple" + "\n" + 
+							"Valor del pronóstico: " +  articulo.getServicios().getHorProMovilSimple().getPronostico() + "\n" +
 							"Valor MAD: " + articulo.getServicios().getHorProMovilSimple().getMad() +"\n" +
 							"Valor MSE: " + articulo.getServicios().getHorProMovilSimple().getMse() +"\n" + 
 							"Valor MAPE: " + articulo.getServicios().getHorProMovilSimple().getMape() + "\n");
@@ -244,8 +250,8 @@ public class PanelProductosPrediction extends JFrame implements ActionListener
 				indicadorMe = 3;
 			}
 		
-			horSuaSimple.setText("           Metodo suavizado simple" + "\n" + 
-							"Valor del pronostico: " +  articulo.getServicios().getHorSuaziSimple().getPronostico() + "\n" +
+			horSuaSimple.setText("           Método suavizado simple" + "\n" + 
+							"Valor del pronóstico: " +  articulo.getServicios().getHorSuaziSimple().getPronostico() + "\n" +
 							"Valor MAD: " + articulo.getServicios().getHorSuaziSimple().getMad() + "\n" +
 							"Valor MSE: " + articulo.getServicios().getHorSuaziSimple().getMse()+ "\n" + 
 							"Valor MAPE: "+ articulo.getServicios().getHorSuaziSimple().getMape() +  "\n");
@@ -257,8 +263,8 @@ public class PanelProductosPrediction extends JFrame implements ActionListener
 				
 			}
 		
-			suaExpSimple.setText("           Metodo suavizado exponencial doble" + "\n" + 
-							"Valor del pronostico: " + articulo.getServicios().getSuaviExpoDoble().getPronostico() +  "\n" +
+			suaExpSimple.setText("           Método suavizado exponencial doble" + "\n" + 
+							"Valor del pronóstico: " + articulo.getServicios().getSuaviExpoDoble().getPronostico() +  "\n" +
 							"Valor MAD: " + articulo.getServicios().getSuaviExpoDoble().getMad()+ "\n" +
 							"Valor MSE: " + articulo.getServicios().getSuaviExpoDoble().getMse()+ "\n" + 
 							"Valor MAPE: "+ articulo.getServicios().getSuaviExpoDoble().getMape() +  "\n");
@@ -269,8 +275,8 @@ public class PanelProductosPrediction extends JFrame implements ActionListener
 				indicadorMe = 5;
 			}
 			
-			proyTende.setText("           Metodo proyeccion de tendencia" + "\n" + 
-							"Valor del pronostico: " + articulo.getServicios().getProyeTende().getPronostico() +  "\n" +
+			proyTende.setText("           Método proyección de tendencia" + "\n" + 
+							"Valor del pronóstico: " + articulo.getServicios().getProyeTende().getPronostico() +  "\n" +
 							"Valor MAD: " + articulo.getServicios().getProyeTende().getMad()  +"\n" +
 							"Valor MSE: " + articulo.getServicios().getProyeTende().getMse() + "\n" + 
 							"Valor MAPE: " + articulo.getServicios().getProyeTende().getMape() +  "\n");

@@ -166,7 +166,7 @@ public class SuavizacionExponencialDoble implements IPronostico
 		}
 		
 		
-		return Math.ceil(count/errorABS.length-numeroPeriodos);
+		return Math.ceil(count/(errorABS.length-numeroPeriodos));
 	}
 
 	@Override

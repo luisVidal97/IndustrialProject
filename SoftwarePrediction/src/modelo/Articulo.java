@@ -86,13 +86,14 @@ public class Articulo
 	/**
 	 * 
 	 * @param periodo
+	 * @param perPon 
 	 * @param porcent
 	 * @param alfaSimple
 	 * @param alfaDoble
 	 * @param betaDoble
 	 * @param perSuavizacionDoble
 	 */
-	public void realizarPronosticos(int periodo, double[] porcent, double alfaSimple, double alfaDoble, double betaDoble, int perSuavizacionDoble)
+	public void realizarPronosticos(int perSim, int perPon, double[] porcent, double alfaSimple, double alfaDoble, double betaDoble, int perSuavizacionDoble)
 	{
 		if(demandaArticulo != null)
 		{
@@ -101,7 +102,7 @@ public class Articulo
 			{
 				demanda[i] = demandaArticulo.get(i);
 			}
-			servicios = new ControladorServicios(demanda, periodo, porcent, alfaSimple,alfaDoble,betaDoble,perSuavizacionDoble);
+			servicios = new ControladorServicios(demanda, perSim, perPon, porcent, alfaSimple,alfaDoble,betaDoble,perSuavizacionDoble);
 		
 		}
 	}
