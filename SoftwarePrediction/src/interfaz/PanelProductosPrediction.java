@@ -25,9 +25,12 @@ public class PanelProductosPrediction extends JFrame implements ActionListener
 	private MainWindow ventanaPrincipal;
 	public static String BTN_IZQ = "Izquierda";
 	public static String BTN_DER = "Derecha";
+	public static String GRAFIC = "Grafica";
 	private JButton botonIzquierda;
 	private JButton botonDerecha;
+	private JButton botonGrafica;
 	private int posicionActual;
+	private VentanGrafica ventanaGrafica;
 	
 	
 	private JPanel panelDatos;
@@ -40,6 +43,8 @@ public class PanelProductosPrediction extends JFrame implements ActionListener
 	private JTextArea proyTende;
 	
 	private List<Articulo> listaArticulos;
+	
+	private Articulo articuloActual;
 	
 	public PanelProductosPrediction(List<Articulo> articulos, MainWindow principal)
 	{
@@ -67,6 +72,10 @@ public class PanelProductosPrediction extends JFrame implements ActionListener
 		botonDerecha.setActionCommand(BTN_DER);
 		botonDerecha.addActionListener(this);
 		
+		botonGrafica  = new JButton("Mostrar Grafica");
+		botonGrafica.setActionCommand(GRAFIC);
+		botonGrafica.addActionListener(this);
+		
 		JPanel panelSuperior = new JPanel();
 		panelSuperior.setLayout(new BorderLayout());
 		
@@ -93,7 +102,7 @@ public class PanelProductosPrediction extends JFrame implements ActionListener
 		
 		
 		panelDatos = new JPanel();
-		panelDatos.setLayout(new GridLayout(6,1));
+		panelDatos.setLayout(new GridLayout(7,1));
 		
 		nombreArticulo = new JTextField("");
 		 nombreArticulo.setHorizontalAlignment(JTextField.CENTER);
@@ -118,6 +127,7 @@ public class PanelProductosPrediction extends JFrame implements ActionListener
 		panelDatos.add(horSuaSimple);
 		panelDatos.add(suaExpSimple);
 		panelDatos.add(proyTende);
+		panelDatos.add(botonGrafica);
 		
 		jScrollPane.setViewportView(panelDatos);
 		
@@ -170,11 +180,17 @@ public class PanelProductosPrediction extends JFrame implements ActionListener
 				mostrarDatosArticulos(listaArticulos.get(posicionActual));
 			}
 		}
+		else if(e.getActionCommand().equals(GRAFIC))
+		{
+			ventanaGrafica = new VentanGrafica(articuloActual);
+			ventanaGrafica.setVisible(true);
+		}
 		
 	}
 
 	private void mostrarDatosArticulos(Articulo articulo) 
 	{
+		articuloActual = articulo;
 		nombreArticulo.setText(articulo.getNombreArticulo());
 		erratico.setText("");
 		horProMovPonde.setText("");
@@ -297,6 +313,12 @@ public class PanelProductosPrediction extends JFrame implements ActionListener
 		else
 		{
 			erratico.setText("La referencia actualmente no tiene una demanda asociada");
+			horProMovPonde.setVisible(false);
+			horProMovSimple.setVisible(false);
+			horSuaSimple.setVisible(false);
+			suaExpSimple.setVisible(false);
+			proyTende.setVisible(false);
+			botonGrafica.setVisible(false);
 			repaint();
 		}
 					
