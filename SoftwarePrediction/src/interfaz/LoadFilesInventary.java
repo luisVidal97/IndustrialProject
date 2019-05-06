@@ -26,6 +26,8 @@ public class LoadFilesInventary extends JFrame implements ActionListener
 	
 	private MainWindow principal;
 	
+	private LeadTimeWindowInventary wdLeadTime;
+	
 	public LoadFilesInventary(MainWindow mainWind) {
 
 		principal = mainWind;
@@ -48,7 +50,7 @@ public class LoadFilesInventary extends JFrame implements ActionListener
 		btnClasificacion.setActionCommand(BTN_CLASIFICACION);
 		btnClasificacion.setBounds(120, 20, 200, 20);
 
-		lbLeadTime = new JLabel("Lead Time:");
+		lbLeadTime = new JLabel("Sistema de control periódico:");
 		lbLeadTime.setBounds(20, 50, 100, 20);
 		
 		btnLeadTime = new JButton("Cargar Archivo");
@@ -97,6 +99,9 @@ public class LoadFilesInventary extends JFrame implements ActionListener
 		}
 		else if(e.getActionCommand().equals(BTN_LEAD_TIME)) 
 		{
+			
+			
+			
 			JPanel panelSeleccion = new JPanel();
 			JFileChooser fc=new JFileChooser();
 			FileNameExtensionFilter filtro = new FileNameExtensionFilter("*.XLSX", "xlsx");
@@ -110,6 +115,9 @@ public class LoadFilesInventary extends JFrame implements ActionListener
 			    	principal.cargarArchivoLeadTime(fichero);
 					JOptionPane.showMessageDialog(null, "¡El archivo se ha cargado correctamente!",
 							"Archivo cargado", JOptionPane.INFORMATION_MESSAGE);
+					wdLeadTime = new LeadTimeWindowInventary();
+					wdLeadTime.setVisible(true);
+					
 					
 				} catch (Exception e1) {
 					JOptionPane.showMessageDialog(null, "Archivo con formato incorrecto. Cagar de nuevo el archivo",

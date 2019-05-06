@@ -12,10 +12,16 @@ public class Articulo
 	public static String C="C";
 	
 	private String nombreArticulo;
+	
 	private ArrayList<Double> demandaArticulo;
+	
 	private ControladorServicios servicios;
+	
 	private double volumenAnual;
+	
 	private String clase;
+	
+	private double inventarioActual;
 	
 	public Articulo(String nombre, ArrayList<Double> demanda ) 
 	{   clase="";
@@ -81,6 +87,14 @@ public class Articulo
 
 	public void setVolumenAnual(double volumenAnual) {
 		this.volumenAnual = volumenAnual;
+	}
+
+	public double getInventarioActual() {
+		return inventarioActual;
+	}
+
+	public void setInventarioActual(double inventarioActual) {
+		this.inventarioActual = inventarioActual;
 	}
 	
 	
