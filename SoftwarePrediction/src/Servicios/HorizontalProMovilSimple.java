@@ -41,13 +41,10 @@ public class HorizontalProMovilSimple implements IPronostico{
 			pronostico += periodos[i];
 		}
 		
-		double p = (pronostico/numeroPeriodo);
-		double entero = (int)p;
-		if(p-entero==0) {
-			return p;
-		}else {
-			return p+1;
-		}
+		double p = Math.ceil(pronostico/numeroPeriodo);
+		
+		return p;
+
 		
 	}
 

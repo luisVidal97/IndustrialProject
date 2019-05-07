@@ -47,13 +47,8 @@ public class HorizontalProMovilPonderado implements IPronostico{
 			contador++;
 		}
 		
-		double p = pronostico;
-		double entero = (int)p;
-		if(p-entero==0) {
-			return p;
-		}else {
-			return p+1;
-		}
+		double p = Math.ceil(pronostico);
+		return p;
 		
 		
 //		int a = (int)pronostico;
