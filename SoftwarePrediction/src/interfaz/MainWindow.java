@@ -1,6 +1,7 @@
 package interfaz;
 
 import java.awt.BorderLayout;
+import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.GridLayout;
 import java.awt.Image;
@@ -75,6 +76,7 @@ public class MainWindow extends JFrame implements ActionListener
 		Image image = ImageIcon.getImage();
 		this.setIconImage(image);
 		
+		
 		controlador = new Controlador();
 		setTitle("Software Prediction");
 		try{
@@ -119,8 +121,7 @@ public class MainWindow extends JFrame implements ActionListener
 		btnInventary.setVisible(false);
 		btnGeneratePrediction.setVisible(false);
 
-
-		
+		this.setBackground(Color.WHITE);
 		setDefaultCloseOperation(EXIT_ON_CLOSE);
 	}
 	
@@ -252,6 +253,7 @@ public class MainWindow extends JFrame implements ActionListener
 
 		MainWindow i = new MainWindow();
 		i.setVisible(true);
+		
 	}
 
 
