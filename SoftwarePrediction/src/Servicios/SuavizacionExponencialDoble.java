@@ -41,7 +41,6 @@ public class SuavizacionExponencialDoble implements IPronostico
 		errorABS = new double[demanda.length];
 		
 		calcularPendienteInterseccion();
-		
 		pronostico = calcularPronostico();
 		mad = calcularMAD();
 		mse = calcularMSE();
@@ -101,26 +100,39 @@ public class SuavizacionExponencialDoble implements IPronostico
 	public double calcularPronostico() {
 		
 		for (int i = 0; i < st.length; i++) {
-			if(i<numeroPeriodos) {
+			if(i<(numeroPeriodos-1)) {
 				st[i]=0;
 				tt[i]=0;		
 			}else {
-				if(i==numeroPeriodos) {
+				if(i==(numeroPeriodos-1)) {
 					st[i]=intersection;
 					tt[i]=pendiente;
 				}else {
-					st[i]= (alfa*demanda[i-1])+((1-alfa)*(st[i-1]-tt[i-1]));
+					st[i]= (alfa*demanda[i-1])+((1-alfa)*(st[i-1]+tt[i-1]));
+					System.out.println("i: "+i);
+					System.out.println("alfa: "+alfa);
+					System.out.println("demanda[i-1]: "+demanda[i-1]);
+					System.out.println("st-1: "+st[i-1]);
+					System.out.println("tt-1: "+tt[i-1]);
 					tt[i]=beta*(st[i]-st[i-1])+((1-beta)*tt[i-1]);
+					
+					pronosticos[i]=Math.ceil( st[i]+tt[i] );
+					
 				}
 			}
 			
-			pronosticos[i]=Math.ceil( st[i]-tt[i] );
 			if(i<= errorABS.length-1 && pronosticos[i]!=0) {
 				errorABS[i]= Math.abs(demanda[i]-pronosticos[i]);
 			}else if(i<= errorABS.length-1	){
 				errorABS[i]=0;
 			}
-		
+			
+			if(i!=37)
+		System.out.println("ERROR: "+errorABS[i]);
+		System.out.println("pr: "+pronosticos[i]);
+		System.out.println("st: "+st[i]);
+		System.out.println("tt: "+tt[i]);
+		System.out.println("----------------");
 		}	
 		return pronosticos[pronosticos.length-1];
 	}
@@ -159,14 +171,13 @@ public class SuavizacionExponencialDoble implements IPronostico
 
 	@Override
 	public double calcularMAPE() {
-		
 		double count =0;
 		for (int i = numeroPeriodos; i < errorABS.length; i++) {
-			count+=demanda[i]/errorABS[i];
+			if(errorABS[i]!=0) {
+			count+=errorABS[i]/demanda[i];}
 		}
 		
-		
-		return Math.ceil(count/(errorABS.length-numeroPeriodos));
+		return count/(errorABS.length-numeroPeriodos);
 	}
 
 	@Override

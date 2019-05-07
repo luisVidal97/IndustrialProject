@@ -14,6 +14,12 @@ public class TendenciaPoryeccion implements IPronostico{
 	private double[] errorABS;
 	private double[] pronosticos;
 
+	
+	/**
+	 * 
+	 * @param values
+	 * @param numPer
+	 */
 	public TendenciaPoryeccion(double[] values, int numPer) 
 	{
 		demanda=values;
@@ -21,23 +27,22 @@ public class TendenciaPoryeccion implements IPronostico{
 		pronosticos = new double[demanda.length+1];
 		errorABS = new double[demanda.length];
 		
-		
 		calcularPendienteInterseccion();
-		
+		pronostico = calcularPronostico();
 		mad = calcularMAD();
 		mse = calcularMSE();
 		mape = calcularMAPE();
-		pronostico = calcularPronostico();
 	}
 
 	
-	
+	/**
+	 * 
+	 */
 	private void calcularPendienteInterseccion() {
 		
 		double pendienteNumerador = 0;
 		double pendienteDenominador = 0;
 		
-		//periodos antes de inicializas st y tt
 		double a[] = new double[numeroPeriodos];
 		for (int i = 0; i < a.length; i++) {
 			a[i]=demanda[i];
@@ -56,6 +61,11 @@ public class TendenciaPoryeccion implements IPronostico{
 		
 	}
 	
+	/**
+	 * 
+	 * @param tamanio
+	 * @return
+	 */
 	public double promedioPeriodos(double tamanio) {
 		double n = 0;
 
@@ -67,26 +77,39 @@ public class TendenciaPoryeccion implements IPronostico{
 		return n/tamanio;
 	}
 	
+	/**
+	 * 
+	 */
 	@Override
 	public double calcularPronostico() {
-		
+
 		for (int i = 0; i < pronosticos.length	; i++) {
 			if(i>=numeroPeriodos) {
-			pronosticos[i]= ((i+1)*pendiente)+intersection;
-			if(i<errorABS.length) {
-			errorABS[i]= Math.abs(demanda[i]-pronosticos[i]);}
+				pronosticos[i]= ((i+1)*pendiente)+intersection;
+
+				if(i<errorABS.length) {
+					errorABS[i]= Math.abs(demanda[i]-pronosticos[i]);
+					}
+
+
 			}else {
 				pronosticos[i]=0;
 				errorABS[i]=0;
 			}
+			
+			
 		}
-	
-	
+
+
 		return pronosticos[pronosticos.length-1];
 	}
 
+	/**
+	 * 
+	 */
 	@Override
 	public double calcularMAD() {
+		
 		double valorMAD = 0;
 		int c=0;
 		for(int i = 0; i < errorABS.length;i++)
@@ -119,18 +142,19 @@ public class TendenciaPoryeccion implements IPronostico{
 	public double calcularMAPE() {
 		double count =0;
 		for (int i = numeroPeriodos; i < errorABS.length; i++) {
-			count+=demanda[i]/errorABS[i];
+			if(errorABS[i]!=0) {
+			count+=errorABS[i]/demanda[i];}
 		}
 		
 		
-		return Math.ceil(count/errorABS.length-numeroPeriodos);
+		return count/(errorABS.length-numeroPeriodos);
 	}
 
 	@Override
 	public double promedio(double[] v) {
 		 double prom = 0.0;
-		    for ( int i = 0; i < v.length; i++ )
-		      prom += v[i];
+		    for ( int i = 0; i < v.length; i++ ) {
+		      prom += v[i];}
 
 		    return prom / ( double ) v.length; 
 	}
