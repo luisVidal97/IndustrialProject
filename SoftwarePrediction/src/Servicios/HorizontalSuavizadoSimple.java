@@ -36,8 +36,7 @@ public class HorizontalSuavizadoSimple implements IPronostico{
 		
 		pronostico = calcularAlpha1(periodos.length, alfa);
 		
-		System.out.println("alfa " + alfa1[periodos.length-1] +  " demanda " + periodos[periodos.length-1]);
-		return pronostico;
+		return Math.ceil(pronostico);
 	}
 	
 	@Override

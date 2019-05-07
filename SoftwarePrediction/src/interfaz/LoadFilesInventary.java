@@ -61,7 +61,7 @@ public class LoadFilesInventary extends JFrame implements ActionListener
 		btnClasificacion.setActionCommand(BTN_CLASIFICACION);
 		btnClasificacion.setBounds(120, 20, 200, 20);
 
-		lbLeadTime = new JLabel("Lead Time:");
+		lbLeadTime = new JLabel("Sistema de control periódico:");
 		lbLeadTime.setBounds(20, 50, 100, 20);
 		
 		btnLeadTime = new JButton("Cargar Archivo");

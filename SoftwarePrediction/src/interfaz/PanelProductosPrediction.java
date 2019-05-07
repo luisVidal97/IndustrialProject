@@ -217,20 +217,42 @@ public class PanelProductosPrediction extends JFrame implements ActionListener
 		
 		if(articulo.getServicios() != null && articulo.getServicios().getErratico() != null)
 		{
-				erratico.setText("           Método Errático" + "\n" + 
+			erratico.setText("           Método Intuitivo " + "\n" + 
 						"Valor del pronóstico: " + articulo.getServicios().getErratico().getPronostico()  +"\n" +
 						"Valor MAD: " + articulo.getServicios().getErratico().getMad()+"\n" +
-						"Valor MSE: " + articulo.getServicios().getErratico().getMse() + "\n" + 
-						"Valor MAPE: " + articulo.getServicios().getErratico().getMape()+ "\n");
+						"Valor MSE: " + articulo.getServicios().getErratico().getMse() + "\n");
+				
+			if((articulo.getServicios().getErratico().getMape() + "").equals("NaN") || (articulo.getServicios().getErratico().getMape() + "").equals("Infinity"))
+			{
+				String mape1 = "Valor MAPE: "+ "Error al dividir por cero"+ "\n";
+				erratico.setText(erratico.getText() + mape1);
+			}
+			else
+			{
+				String mape2 = "Valor MAPE: "+ articulo.getServicios().getErratico().getMape()+ "\n";
+				erratico.setText(erratico.getText() + mape2);
+			}
 		
-				valorMenor = articulo.getServicios().getErratico().getMse();
+			
+			valorMenor = articulo.getServicios().getErratico().getMse();
 			indicadorMe = 1;
 		
 			horProMovPonde.setText("           Método Horizontal promedio móvil ponderado" + "\n" + 
 							"Valor del pronóstico: " +  articulo.getServicios().getHorProMovilPonde().getPronostico() + "\n" +
 							"Valor MAD: " +  articulo.getServicios().getHorProMovilPonde().getMad() + "\n" +
-							"Valor MSE: " + articulo.getServicios().getHorProMovilPonde().getMse() + "\n" + 
-							"Valor MAPE: "+ articulo.getServicios().getHorProMovilPonde().getMape()+ "\n");
+							"Valor MSE: " + articulo.getServicios().getHorProMovilPonde().getMse() + "\n");
+				
+			if((articulo.getServicios().getHorProMovilPonde().getMape() + "").equals("NaN") || (articulo.getServicios().getHorProMovilPonde().getMape() + "").equals("Infinity"))
+			{
+				String mape1 = "Valor MAPE: "+ "Error al dividir por cero"+ "\n";
+				horProMovPonde.setText(horProMovPonde.getText() + mape1);
+			}
+			else
+			{
+				String mape2 = "Valor MAPE: "+ articulo.getServicios().getHorProMovilPonde().getMape()+ "\n";
+				horProMovPonde.setText(horProMovPonde.getText() + mape2);
+			}
+							
 			
 			if(articulo.getServicios().getHorProMovilPonde().getMse() < valorMenor)
 			{
@@ -241,8 +263,18 @@ public class PanelProductosPrediction extends JFrame implements ActionListener
 			horProMovSimple.setText("            Método Horizontal promedio móvil simple" + "\n" + 
 							"Valor del pronóstico: " +  articulo.getServicios().getHorProMovilSimple().getPronostico() + "\n" +
 							"Valor MAD: " + articulo.getServicios().getHorProMovilSimple().getMad() +"\n" +
-							"Valor MSE: " + articulo.getServicios().getHorProMovilSimple().getMse() +"\n" + 
-							"Valor MAPE: " + articulo.getServicios().getHorProMovilSimple().getMape() + "\n");
+							"Valor MSE: " + articulo.getServicios().getHorProMovilSimple().getMse() +"\n");
+			
+			if((articulo.getServicios().getHorProMovilSimple().getMape() + "").equals("NaN") || (articulo.getServicios().getHorProMovilSimple().getMape() + "").equals("Infinity"))
+			{
+				String mape1 = "Valor MAPE: "+ "Error al dividir por cero"+ "\n";
+				horProMovSimple.setText(horProMovSimple.getText() + mape1);
+			}
+			else
+			{
+				String mape2 = "Valor MAPE: "+ articulo.getServicios().getHorProMovilSimple().getMape()+ "\n";
+				horProMovSimple.setText(horProMovSimple.getText() + mape2);
+			}
 			
 			if( articulo.getServicios().getHorProMovilSimple().getMse()< valorMenor)
 			{
@@ -253,8 +285,18 @@ public class PanelProductosPrediction extends JFrame implements ActionListener
 			horSuaSimple.setText("           Método suavizado simple" + "\n" + 
 							"Valor del pronóstico: " +  articulo.getServicios().getHorSuaziSimple().getPronostico() + "\n" +
 							"Valor MAD: " + articulo.getServicios().getHorSuaziSimple().getMad() + "\n" +
-							"Valor MSE: " + articulo.getServicios().getHorSuaziSimple().getMse()+ "\n" + 
-							"Valor MAPE: "+ articulo.getServicios().getHorSuaziSimple().getMape() +  "\n");
+							"Valor MSE: " + articulo.getServicios().getHorSuaziSimple().getMse()+ "\n");
+			
+			if((articulo.getServicios().getHorSuaziSimple().getMape() + "").equals("NaN") || (articulo.getServicios().getHorSuaziSimple().getMape() + "").equals("Infinity"))
+			{
+				String mape1 = "Valor MAPE: "+ "Error al dividir por cero"+ "\n";
+				horSuaSimple.setText(horSuaSimple.getText() + mape1);
+			}
+			else
+			{
+				String mape2 = "Valor MAPE: "+ articulo.getServicios().getHorSuaziSimple().getMape()+ "\n";
+				horSuaSimple.setText(horSuaSimple.getText() + mape2);
+			}
 			
 			if(articulo.getServicios().getHorSuaziSimple().getMse() < valorMenor)
 			{
@@ -266,8 +308,19 @@ public class PanelProductosPrediction extends JFrame implements ActionListener
 			suaExpSimple.setText("           Método suavizado exponencial doble" + "\n" + 
 							"Valor del pronóstico: " + articulo.getServicios().getSuaviExpoDoble().getPronostico() +  "\n" +
 							"Valor MAD: " + articulo.getServicios().getSuaviExpoDoble().getMad()+ "\n" +
-							"Valor MSE: " + articulo.getServicios().getSuaviExpoDoble().getMse()+ "\n" + 
-							"Valor MAPE: "+ articulo.getServicios().getSuaviExpoDoble().getMape() +  "\n");
+							"Valor MSE: " + articulo.getServicios().getSuaviExpoDoble().getMse()+ "\n" );
+			
+			
+			if((articulo.getServicios().getSuaviExpoDoble().getMape() + "").equals("NaN") || (articulo.getServicios().getSuaviExpoDoble().getMape() + "").equals("Infinity"))
+			{
+				String mape1 = "Valor MAPE: "+ "Error al dividir por cero"+ "\n";
+				suaExpSimple.setText(suaExpSimple.getText() + mape1);
+			}
+			else
+			{
+				String mape2 = "Valor MAPE: "+ articulo.getServicios().getSuaviExpoDoble().getMape()+ "\n";
+				suaExpSimple.setText(suaExpSimple.getText() + mape2);
+			}
 			
 			if(articulo.getServicios().getSuaviExpoDoble().getMse() < valorMenor)
 			{
@@ -278,8 +331,19 @@ public class PanelProductosPrediction extends JFrame implements ActionListener
 			proyTende.setText("           Método proyección de tendencia" + "\n" + 
 							"Valor del pronóstico: " + articulo.getServicios().getProyeTende().getPronostico() +  "\n" +
 							"Valor MAD: " + articulo.getServicios().getProyeTende().getMad()  +"\n" +
-							"Valor MSE: " + articulo.getServicios().getProyeTende().getMse() + "\n" + 
-							"Valor MAPE: " + articulo.getServicios().getProyeTende().getMape() +  "\n");
+							"Valor MSE: " + articulo.getServicios().getProyeTende().getMse() + "\n");
+			
+			if((articulo.getServicios().getProyeTende().getMape() + "").equals("NaN") || (articulo.getServicios().getProyeTende().getMape() + "").equals("Infinity"))
+			{
+				String mape1 = "Valor MAPE: "+ "Error al dividir por cero"+ "\n";
+				proyTende.setText(proyTende.getText() + mape1);
+			}
+			else
+			{
+				String mape2 = "Valor MAPE: "+ articulo.getServicios().getProyeTende().getMape()+ "\n";
+				proyTende.setText(proyTende.getText() + mape2);
+			}
+			
 			
 			if(articulo.getServicios().getProyeTende().getMse() < valorMenor)
 			{

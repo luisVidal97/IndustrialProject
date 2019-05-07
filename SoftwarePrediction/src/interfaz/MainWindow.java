@@ -98,11 +98,11 @@ public class MainWindow extends JFrame implements ActionListener
 		btnLoadPrediction.addActionListener(this);
 		btnLoadPrediction.setActionCommand(BTN_LOADPRO);
 		
-		btnGeneratePrediction = new JButton("Gestion de demanda");
+		btnGeneratePrediction = new JButton("Gestión de demanda");
 		btnGeneratePrediction.addActionListener(this);
 		btnGeneratePrediction.setActionCommand(BTN_GENERATE_PREDICTION);
 		
-		btnInventary = new JButton("Gestion de Inventarios");
+		btnInventary = new JButton("Gestión  de Inventarios");
 		btnInventary.addActionListener(this);
 		btnInventary.setActionCommand(BTN_INVENTARY);;
 		
@@ -248,9 +248,8 @@ public class MainWindow extends JFrame implements ActionListener
 	 * Main method
 	 * @param args
 	 */
-	public static void main(String[] args) {
-		// TODO Auto-generated method stub
-
+	public static void main(String[] args)
+	{
 		MainWindow i = new MainWindow();
 		i.setVisible(true);
 		

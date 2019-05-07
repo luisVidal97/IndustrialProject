@@ -135,17 +135,35 @@ public class AskForDataWindowPrediction extends JFrame implements ActionListener
 				double betaDoble= Double.parseDouble(txtSuavizacionDobleBeta.getText());
 				int perSuavizacionDoble = Integer.parseInt(txtSuavizacionDoblePer.getText());
 				
+				boolean datosLlenados = true;
 				double[] porcent= new double[perPon];
 				for (int i = 0; i < porcent.length; i++) {
 					String num = JOptionPane.showInputDialog(null,"Introduzca la ponderación para promedio "
 							+ "móvil ponderado en el periodo de n-"+(porcent.length-i));
-					double d = Double.parseDouble(num);
-					porcent[i]=d;
+					if(num != null)
+					{
+						double d = Double.parseDouble(num);
+						porcent[i]=d;
+					}
+					else
+					{
+						datosLlenados = false;
+					}
+					
 				}
 				
-				if(perSuavizacionDoble>=12) {
-				principal.realizarPronosticos(perSimp, perPon, porcent, alfaSimple, alfaDoble,betaDoble,perSuavizacionDoble);
-				panelProductos = new PanelProductosPrediction(listaArticulos, principal);
+				if(perSuavizacionDoble>=12) 
+				{
+					if(datosLlenados)
+					{
+						principal.realizarPronosticos(perSimp, perPon, porcent, alfaSimple, alfaDoble,betaDoble,perSuavizacionDoble);
+						panelProductos = new PanelProductosPrediction(listaArticulos, principal);
+					}
+					else
+					{
+						JOptionPane.showMessageDialog(null, "No se ingresaron correctamente las ponderaciones para cada uno de los periodos requeridos", "Error Ponderación",JOptionPane.ERROR_MESSAGE);
+					}
+				
 				}else {
 					JOptionPane.showMessageDialog(null, "El periodo requerido para realizar"
 							+ " suvización exponencial doble debe ser por lo menos 12. Intentelo de nuevo", "Error Periodo",
