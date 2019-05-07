@@ -109,9 +109,9 @@ public class TendenciaPoryeccion implements IPronostico{
 	 */
 	@Override
 	public double calcularMAD() {
+		
 		double valorMAD = 0;
 		int c=0;
-		
 		for(int i = 0; i < errorABS.length;i++)
 		{
 			if(errorABS[i]!=0) {

@@ -115,15 +115,20 @@ public class SuavizacionExponencialDoble implements IPronostico
 					System.out.println("st-1: "+st[i-1]);
 					System.out.println("tt-1: "+tt[i-1]);
 					tt[i]=beta*(st[i]-st[i-1])+((1-beta)*tt[i-1]);
+					
+					pronosticos[i]=Math.ceil( st[i]+tt[i] );
+					
 				}
 			}
 			
-			pronosticos[i]=Math.ceil( st[i]+tt[i] );
 			if(i<= errorABS.length-1 && pronosticos[i]!=0) {
 				errorABS[i]= Math.abs(demanda[i]-pronosticos[i]);
 			}else if(i<= errorABS.length-1	){
 				errorABS[i]=0;
 			}
+			
+			if(i!=37)
+		System.out.println("ERROR: "+errorABS[i]);
 		System.out.println("pr: "+pronosticos[i]);
 		System.out.println("st: "+st[i]);
 		System.out.println("tt: "+tt[i]);
@@ -166,14 +171,13 @@ public class SuavizacionExponencialDoble implements IPronostico
 
 	@Override
 	public double calcularMAPE() {
-		
 		double count =0;
 		for (int i = numeroPeriodos; i < errorABS.length; i++) {
-			count+=demanda[i]/errorABS[i];
+			if(errorABS[i]!=0) {
+			count+=errorABS[i]/demanda[i];}
 		}
 		
-		
-		return Math.ceil(count/(errorABS.length-numeroPeriodos));
+		return count/(errorABS.length-numeroPeriodos);
 	}
 
 	@Override
