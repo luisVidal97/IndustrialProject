@@ -51,7 +51,7 @@ public class PanelProductosPrediction extends JFrame implements ActionListener
 	public PanelProductosPrediction(List<Articulo> articulos, MainWindow principal)
 	{
 	
-		ImageIcon ImageIcon = new ImageIcon("img/icono.png");
+		ImageIcon ImageIcon = new ImageIcon(getClass().getResource("/img/icono.png"));
 		Image image = ImageIcon.getImage();
 		this.setIconImage(image);
 		

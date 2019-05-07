@@ -47,7 +47,7 @@ public class AskForDataWindowPrediction extends JFrame implements ActionListener
 	
 	public AskForDataWindowPrediction(List<Articulo> collection, MainWindow paginaPrincipal) {
 		
-		ImageIcon ImageIcon = new ImageIcon("img/icono.png");
+		ImageIcon ImageIcon = new ImageIcon(getClass().getResource("/img/icono.png"));
 		Image image = ImageIcon.getImage();
 		this.setIconImage(image);
 		

@@ -71,7 +71,9 @@ public class MainWindow extends JFrame implements ActionListener
 	 */
 	public MainWindow() 
 	{
-		ImageIcon ImageIcon = new ImageIcon("img/icono.png");
+		//ImageIcon ImageIcon = new ImageIcon("img/icono.png");
+		
+		ImageIcon ImageIcon = new ImageIcon(getClass().getResource("/img/icono.png"));
 		Image image = ImageIcon.getImage();
 		this.setIconImage(image);
 		
@@ -109,7 +111,9 @@ public class MainWindow extends JFrame implements ActionListener
 		aux.add(btnGeneratePrediction);
 		aux.add(btnInventary);
 
-		ImageIcon im = new ImageIcon("img/fanalca.png");
+		
+		//ImageIcon im = new ImageIcon("img/fanalca.png");
+		ImageIcon im = new ImageIcon(getClass().getResource("/img/fanalca.png"));
 		lbImg = new JLabel(im);
 		
 		add(btnLoadPrediction, BorderLayout.SOUTH);

@@ -36,7 +36,7 @@ public class LoadFilesInventary extends JFrame implements ActionListener
 	
 	public LoadFilesInventary(ArrayList<Articulo> articulos, MainWindow mainWind) {
 
-		ImageIcon ImageIcon = new ImageIcon("img/icono.png");
+		ImageIcon ImageIcon = new ImageIcon(getClass().getResource("/img/icono.png"));
 		Image image = ImageIcon.getImage();
 		this.setIconImage(image);
 		

@@ -16,7 +16,7 @@ public class ClassificationABCWindowInventary extends JFrame{
 	
 	public ClassificationABCWindowInventary(ClasificacionABC clasificacionABC) {
 		
-		ImageIcon ImageIcon = new ImageIcon("img/icono.png");
+		ImageIcon ImageIcon = new ImageIcon(getClass().getResource("/img/icono.png"));
 		Image image = ImageIcon.getImage();
 		this.setIconImage(image);
 		
