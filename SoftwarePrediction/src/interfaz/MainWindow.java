@@ -75,7 +75,7 @@ public class MainWindow extends JFrame implements ActionListener
 	{
 		//ImageIcon ImageIcon = new ImageIcon("img/icono.png");
 		
-		System.out.println("sdsdsd");
+	
 		ImageIcon ImageIcon = new ImageIcon(getClass().getResource("/img/icono.png"));
 		Image image = ImageIcon.getImage();
 		this.setIconImage(image);
