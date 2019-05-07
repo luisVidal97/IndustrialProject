@@ -9,7 +9,6 @@ import modelo.Articulo;
 
 public class AskForDataWindowPrediction extends JFrame implements ActionListener{
 
-	
 	public 	static String BTN_ACCEPT="ACEPTAR";
 	
 	private JLabel lbMovSim;
@@ -45,7 +44,8 @@ public class AskForDataWindowPrediction extends JFrame implements ActionListener
 	private MainWindow principal;
 	
 	
-	public AskForDataWindowPrediction(List<Articulo> collection, MainWindow paginaPrincipal) {
+	public AskForDataWindowPrediction(List<Articulo> collection, MainWindow paginaPrincipal) 
+	{
 		
 		ImageIcon ImageIcon = new ImageIcon(getClass().getResource("/img/icono.png"));
 		Image image = ImageIcon.getImage();
@@ -68,12 +68,12 @@ public class AskForDataWindowPrediction extends JFrame implements ActionListener
 		setLayout(null);
 		
 		
-		lbMovSim = new JLabel("Número de periodos para calcular el promedio móvil simple:");
+		lbMovSim = new JLabel("Número de periodos para calcular el promedio móvil simple: ");
 		lbMovSim.setBounds(30, 10, 370, 20);
 		txtMovSim = new JTextField();
 		txtMovSim.setBounds(400, 10, 60, 20);
 		
-		lbMovPon = new JLabel("Número de periodos para calcular el promedio móvil ponderado:");
+		lbMovPon = new JLabel("Número de periodos para calcular el promedio móvil ponderado: ");
 		lbMovPon.setBounds(30, 40, 370, 20);
 		txtMovPon = new  JTextField();
 		txtMovPon.setBounds(400, 40, 60, 20);
