@@ -66,10 +66,10 @@ public class Articulo
 			double max =0;
 			for (int i = 0; i < demandaArticulo.size(); i++) {
 				if(max<demandaArticulo.get(i).doubleValue()) {
-					max=demandaArticulo.get(i).doubleValue();
+					max= demandaArticulo.get(i).doubleValue();
 				}
 			}
-			inventarioMaximo = inventarioSeguridad+ leadTime*max; 
+			inventarioMaximo = cantidadPedir+inventarioActual; 
 		}
 	}
 	

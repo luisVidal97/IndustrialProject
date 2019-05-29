@@ -76,6 +76,7 @@ public class LeadTime
 			l+= marcaClase[i]*probaOcurre[i];
 		}
 		
+		//leadtimeParcial
 		leadTime = Math.ceil(l)/30;
 		
 //		System.out.println(" este fue el limet tiem inicial local : " +leadTime);
@@ -85,10 +86,16 @@ public class LeadTime
 			v+=probaOcurre[i]*cuadrados[i];
 		}
 		
-		double varianza=(v-leadTime*leadTime)/30;
-
-		desviacionEstandar=Math.sqrt(varianza);
-		leadTime = leadTime+tiempoTransito+nacionalizaciónIngreso;
+		
+		double leadTimeAuxiliar = leadTime*30;
+		
+		double varianza=(v-leadTimeAuxiliar*leadTimeAuxiliar);
+		
+		double desviacionEstandarAuxiliar= Math.sqrt(varianza);
+		desviacionEstandar=desviacionEstandarAuxiliar/30;
+		
+		//leadtime Global
+		leadTime = leadTime+tiempoTransito/30+nacionalizaciónIngreso/30;
 		
 		for (int i = 0; i < articulos.size(); i++) {
 			articulos.get(i).setLeadTime(leadTime);
